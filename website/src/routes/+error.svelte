@@ -1,0 +1,42 @@
+<script>
+  import imgBG from "$lib/assets/web-bg.jpg?enhanced&w=9999";
+  import "../app.css";
+</script>
+
+<div class="fixed inset-0 -z-10 overflow-hidden">
+  <enhanced:img 
+    src={imgBG} 
+    alt="" 
+    class="w-full h-full object-cover" 
+  />
+  
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+</div>
+
+<main
+  class="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 text-center"
+>
+  <div class="max-w-md space-y-6">
+    <h2
+      class="font-serif text-3xl font-bold tracking-tight text-base-content md:text-5xl"
+    >
+      [404] Page not found
+    </h2>
+
+    <p class="text-lg leading-relaxed text-base-content/70 italic">
+      This page doesn't exist, or it has moved.
+    </p>
+
+    <div class="flex flex-col justify-center gap-4 sm:flex-row">
+      <a href="/" class="btn btn-primary btn-lg shadow-lg">
+        Return Home
+      </a>
+      <button
+        onclick={() => window.history.back()}
+        class="btn btn-outline btn-lg"
+      >
+        Go Back
+      </button>
+    </div>
+  </div>
+</main>

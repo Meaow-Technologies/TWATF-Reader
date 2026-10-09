@@ -1,0 +1,58 @@
+{
+  "original": {
+    "main": [
+      {
+        "category": "Part 1",
+        "discussion": 1,
+        "index": 1,
+        "section": "part1",
+        "slug": 1,
+        "title": "Placeholder Chapter 1"
+      },
+      {
+        "category": "Part 1",
+        "discussion": 2,
+        "index": 2,
+        "section": "part1",
+        "slug": 2,
+        "title": "Placeholder Chapter 2"
+      },
+      {
+        "category": "Part 1",
+        "discussion": 3,
+        "index": 3,
+        "section": "part1",
+        "slug": 3,
+        "title": "Placeholder Chapter 3"
+      }
+    ]
+  },
+  "revised": {
+    "main": [
+      {
+        "category": "Part 1",
+        "discussion": 1,
+        "index": 1,
+        "section": "part1",
+        "slug": 1,
+        "title": "Placeholder Chapter 1"
+      },
+      {
+        "category": "Part 1",
+        "discussion": 2,
+        "index": 2,
+        "section": "part1",
+        "slug": 2,
+        "title": "Placeholder Chapter 2"
+      },
+      {
+        "category": "Part 1",
+        "discussion": 3,
+        "index": 3,
+        "section": "part1",
+        "slug": 3,
+        "title": "Placeholder Chapter 3"
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "defaultCommentOrder": "newest",
+  "origins": ["https://YOUR-PROJECT.pages.dev"],
+  "originsRegex": ["http://localhost:[0-9]+"]
+}
