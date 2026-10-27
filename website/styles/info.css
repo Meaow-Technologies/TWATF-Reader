@@ -482,7 +482,10 @@ body.header-hidden > header {
   border-color: #a88448;
 }
 .discord-server-wiki .identity-art {
-  background: #a88448;
+  background-image: url("/assets/servers/wiki-banner.jpg");
+  background-position: center;
+  background-size: cover;
+  background-color: #a88448;
 }
 .discord-server-wiki .identity-icon {
   border-color: #493b22;
