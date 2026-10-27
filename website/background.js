@@ -5,7 +5,7 @@
     source: "default",
     color: "#101411",
     url: "",
-    blur: 1,
+    blur: 0,
     brightness: 70,
     zoom: 100,
     x: 50,
@@ -28,7 +28,10 @@
       if (Number.isFinite(n))
         s[k] = Math.max(bounds[k][0], Math.min(bounds[k][1], n));
     }
-    if (["default", "custom", "url", "color"].includes(raw.source))
+    if (raw && raw.blur === 1 && !raw._customBlur) {
+      s.blur = 0;
+    }
+    if (["default", "artwork2", "custom", "url", "color"].includes(raw.source))
       s.source = raw.source;
     if (/^#[0-9a-f]{6}$/i.test(raw.color || "")) s.color = raw.color;
     if (typeof raw.url === "string" && raw.url.startsWith("https://"))
@@ -49,7 +52,7 @@
   dialog.setAttribute("aria-labelledby", "background-title");
   dialog.innerHTML = `<div class="dialog-head"><div><p class="eyebrow">MAKE IT YOURS</p><h2 id="background-title">Your background</h2></div><button id="background-close" aria-label="Close background settings">✕</button></div>
  <div class="background-preview" aria-label="Background preview"><div class="background-preview-art"></div><span>Find your atmosphere.</span></div>
- <label for="background-source">Background</label><select id="background-source"><option value="default">World After the Fall artwork</option><option value="custom">Your own image</option><option value="url">Image URL</option><option value="color">Solid colour</option></select>
+ <label for="background-source">Background</label><select id="background-source"><option value="default">World After the Fall artwork</option><option value="artwork2">The World After the Fall Artwork 2</option><option value="custom">Your own image</option><option value="url">Image URL</option><option value="color">Solid colour</option></select>
  <div id="background-upload-panel" hidden><label for="background-file">Choose an image</label><input id="background-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="muted">JPG, PNG, WebP or GIF · up to 10 MB. Stored on this device only.</p><button id="background-remove" type="button">Remove uploaded image</button></div>
  <div id="background-url-panel" hidden><label for="background-url">HTTPS image URL</label><div class="background-url-row"><input id="background-url" type="url" placeholder="https://example.com/image.jpg"><button id="background-url-apply">Apply</button></div><p class="muted">Images load directly from that website. Its host receives the image request.</p></div>
  <div id="background-color-panel" hidden><label for="background-color">Background colour</label><input id="background-color" type="color" value="#101411"></div>
@@ -83,10 +86,17 @@
     }
   }
   function apply() {
-    const image =
-      state.source === "color"
-        ? "none"
-        : `url(${JSON.stringify(state.source === "custom" && customURL ? customURL : state.source === "url" && remoteURL ? remoteURL : "assets/background.webp")})`;
+    let bgUrl = "assets/background.webp";
+    if (state.source === "color") {
+      bgUrl = null;
+    } else if (state.source === "artwork2") {
+      bgUrl = "assets/background_image-2.jpg";
+    } else if (state.source === "custom" && customURL) {
+      bgUrl = customURL;
+    } else if (state.source === "url" && remoteURL) {
+      bgUrl = remoteURL;
+    }
+    const image = bgUrl ? `url(${JSON.stringify(bgUrl)})` : "none";
     root.style.setProperty("--wallpaper", image);
     root.style.setProperty("--wallpaper-color", state.color);
     root.style.setProperty("--wallpaper-blur", state.blur + "px");
@@ -196,6 +206,7 @@
   for (const k in bounds)
     $("#background-" + k).oninput = (e) => {
       state[k] = Number(e.target.value);
+      if (k === "blur") state._customBlur = true;
       apply();
       save();
     };
@@ -269,6 +280,7 @@
   $("#background-reset").onclick = () => {
     ++epoch;
     state = { ...defaults };
+    delete state._customBlur;
     remoteURL = "";
     $("#background-url").value = "";
     apply();

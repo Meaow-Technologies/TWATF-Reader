@@ -654,6 +654,20 @@ body[data-theme] .primary {
     17px/1.8 Georgia,
     serif;
 }
+.index-book .author-card {
+  text-align: left;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 20px;
+}
+.index-book .author-card h2 {
+  font-size: 19px;
+  margin-bottom: 14px;
+}
+.index-book .author-card p {
+  font-size: 14px;
+  line-height: 1.7;
+}
 .index-main {
   min-width: 0;
   padding: 0 0 30px;
@@ -773,8 +787,12 @@ body[data-theme] .primary {
     font-size: 30px;
   }
   .index-book .summary,
-  .index-book > p.muted:last-child {
+  .index-book > p.muted:last-of-type {
     display: none;
+  }
+  .index-book .author-card {
+    max-width: 480px;
+    margin: 20px auto 0;
   }
   .index-actions {
     max-width: 420px;
@@ -832,7 +850,7 @@ body[data-theme] .primary {
     font-size: 23px;
   }
 }
-/* Supplied artwork stays sharp: just 1px blur and 30% dimming. */
+/* Supplied artwork stays sharp: 0px blur and 30% dimming. */
 body {
   isolation: isolate;
   min-height: 100vh;
@@ -843,7 +861,7 @@ body::before {
   inset: -3px;
   z-index: -2;
   background: url("assets/background.webp") center center/cover no-repeat;
-  filter: blur(1px) brightness(0.7);
+  filter: blur(0px) brightness(0.7);
   pointer-events: none;
 }
 header {
@@ -1319,7 +1337,7 @@ body > header > nav {
 :root {
   --wallpaper: url("assets/background.webp");
   --wallpaper-color: #101411;
-  --wallpaper-blur: 1px;
+  --wallpaper-blur: 0px;
   --wallpaper-brightness: 0.7;
   --wallpaper-zoom: 1;
   --wallpaper-position: 50% 50%;
