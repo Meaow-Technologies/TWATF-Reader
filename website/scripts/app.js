@@ -35,7 +35,7 @@ let state = {
   bookmarks: [],
   theme: "oled",
   size: 20,
-  font: "serif",
+  font: "bookerly",
 };
 try {
   Object.assign(
@@ -65,6 +65,11 @@ const fonts = {
   arial: "Arial, Helvetica, sans-serif",
   verdana: "Verdana, Geneva, sans-serif",
   mono: 'ui-monospace, "Courier New", monospace',
+  bookerly: '"Bookerly", Georgia, serif',
+  "libre-baskerville": '"Libre Baskerville", Georgia, serif',
+  literata: '"Literata", Georgia, serif',
+  opendyslexic: '"OpenDyslexic", Arial, sans-serif',
+  roboto: '"Roboto", Arial, sans-serif',
 };
 const covers = {
   first: "assets/images/first-cover.webp",
@@ -185,7 +190,7 @@ function settings() {
   document.documentElement.style.setProperty("--size", state.size + "px");
   document.documentElement.style.setProperty(
     "--font",
-    fonts[state.font] || fonts.serif,
+    fonts[state.font] || fonts.bookerly,
   );
   $("#theme").value = state.theme;
   $("#size").textContent = state.size + " px";
@@ -496,7 +501,7 @@ const settingsReset = $("#settings-reset");
 if (settingsReset) {
   settingsReset.onclick = () => {
     state.theme = "oled";
-    state.font = "serif";
+    state.font = "bookerly";
     state.size = 20;
     settings();
     save();
