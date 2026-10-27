@@ -25,13 +25,13 @@ EPUB_NAMES = {
     "revised": "The_World_After_The_Fall_Revised",
 }
 COVER_FILES = {
-    "first": "first_upscaled.png",
-    "revised": "revised_upscaled_2.png",
+    "first": "images/first_upscaled.png",
+    "revised": "images/revised_upscaled_2.png",
 }
 # Web-optimised covers (used in HTML; originals kept for EPUBs)
 COVER_WEBP = {
-    "first": "first-cover.webp",
-    "revised": "revised-cover.webp",
+    "first": "images/first-cover.webp",
+    "revised": "images/revised-cover.webp",
 }
 NS = "{http://www.w3.org/1999/xhtml}"
 ALLOWED = {
@@ -286,7 +286,7 @@ def _build_chapter_head(edition, n, count, title, chapter_html, canonical_url):
             desc = desc_prefix + snippet2
         else:
             desc = desc[:157] + "…"
-    og_image = f"{SITE_URL}/assets/og-image.jpg"
+    og_image = f"{SITE_URL}/assets/images/og-image.jpg"
     breadcrumb_items = [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
         {"@type": "ListItem", "position": 2, "name": f"The World After the Fall — {edition_name}", "item": f"{SITE_URL}/{edition}"},
@@ -323,7 +323,7 @@ def _build_edition_head(edition, count, canonical_url):
                 f"The revised and republished edition with {count} chapters. Browse the full chapter list.")
     if len(desc) > 160:
         desc = desc[:157] + "…"
-    og_image = f"{SITE_URL}/assets/og-image.jpg"
+    og_image = f"{SITE_URL}/assets/images/og-image.jpg"
     breadcrumb_items = [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
         {"@type": "ListItem", "position": 2, "name": f"The World After the Fall — {edition_name}", "item": canonical_url},
@@ -351,7 +351,7 @@ def _build_homepage_head():
     """Build the homepage-specific meta tags (after stripping old ones)."""
     page_title = "The World After the Fall (TWATF) – Read Online | TWATF Reader"
     desc = "Read The World After the Fall (TWATF) by Sing Shong online. First and Revised editions, bookmarks, reading settings and EPUB downloads."
-    og_image = f"{SITE_URL}/assets/og-image.jpg"
+    og_image = f"{SITE_URL}/assets/images/og-image.jpg"
     canonical = f"{SITE_URL}/"
     ld_json = json.dumps({
         "@context": "https://schema.org",
@@ -563,7 +563,7 @@ def generate_edition_page(out, edition, rows, base_chapters_html, books):
     )
 
     # 11. Set #index-download href
-    epub_name = f"assets/{EPUB_NAMES[edition]}.epub"
+    epub_name = f"assets/downloads/{EPUB_NAMES[edition]}.epub"
     markup = re.sub(
         r'(id=["\']index-download["\'][^>]*\s)href=["\'][^"\']*["\']',
         rf'\g<1>href="{epub_name}"',
@@ -729,6 +729,7 @@ def build(root=ROOT):
     with tempfile.TemporaryDirectory(prefix=".build-", dir=root) as temporary:
         out = Path(temporary) / "dist"
         shutil.copytree(root / "website", out)
+        (out / "assets" / "downloads").mkdir(parents=True, exist_ok=True)
         catalog = {}
         for v, rows in books.items():
             folder = out / "data" / v
@@ -746,13 +747,13 @@ def build(root=ROOT):
                     {k: c[k] for k in ["number", "title", "words"]} | {"path": path}
                 )
             build_epub(
-                out / "assets" / f"{EPUB_NAMES[v]}.epub",
+                out / "assets" / "downloads" / f"{EPUB_NAMES[v]}.epub",
                 v,
                 rows,
                 out / "assets" / COVER_FILES[v],
                 modified,
             )
-            verify_epub(out / "assets" / f"{EPUB_NAMES[v]}.epub", rows)
+            verify_epub(out / "assets" / "downloads" / f"{EPUB_NAMES[v]}.epub", rows)
         (out / "data/catalog.json").write_text(
             json.dumps(catalog, ensure_ascii=False), encoding="utf-8"
         )
@@ -828,10 +829,10 @@ def build(root=ROOT):
         cover_hash = hashlib.sha256(
             b"".join((out / "assets" / COVER_FILES[v]).read_bytes() for v in EDITIONS)
         ).hexdigest()[:12]
-        app = out / "app.js"
+        app = out / "scripts" / "app.js"
         app.write_text(
             re.sub(
-                r"(assets/(?:first-cover|revised-cover)\.webp)(?=[`'\"])",
+                r"(assets/images/(?:first-cover|revised-cover)\.webp)(?=[`'\"])",
                 lambda m: m.group(1) + "?v=" + cover_hash,
                 app.read_text(encoding="utf-8"),
             ),
@@ -850,7 +851,7 @@ def build(root=ROOT):
                 return match.group(1) + name + "?v=" + digest + '"'
 
             markup = re.sub(
-                r'((?:src|href)=")((?:assets/)?[A-Za-z0-9_-]+\.(?:js|css|jpg|png|webp))"',
+                r'((?:src|href)=")((?:assets|styles|scripts)/[A-Za-z0-9_/-]+\.(?:js|css|jpg|png|webp))"',
                 version_asset,
                 markup,
             )
@@ -902,7 +903,7 @@ def build(root=ROOT):
                     },
                     "epubs": {
                         v: hashlib.sha256(
-                            (out / "assets" / f"{EPUB_NAMES[v]}.epub").read_bytes()
+                            (out / "assets" / "downloads" / f"{EPUB_NAMES[v]}.epub").read_bytes()
                         ).hexdigest()
                         for v in EDITIONS
                     },

@@ -1,0 +1,259 @@
+#chapter-index {
+  display: grid;
+  grid-template-columns: minmax(280px, 35%) 1fr;
+  max-width: 1600px;
+  margin: auto;
+}
+.index-book {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  padding: 30px 8%;
+  text-align: center;
+  border-right: 1px solid var(--line);
+  background: radial-gradient(ellipse at 50% 30%, #80977e20, transparent 65%);
+}
+.index-back {
+  display: block;
+  text-align: left;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 25px;
+}
+.index-book img {
+  width: 65%;
+  max-width: 260px;
+  max-height: 340px;
+  object-fit: contain;
+  box-shadow: 0 15px 45px #0004;
+  border-radius: 6px;
+}
+.index-book h1 {
+  font-size: 34px;
+  letter-spacing: -1px;
+  margin: 24px 0 18px;
+}
+.index-book .eyebrow {
+  letter-spacing: 2px;
+}
+.index-actions {
+  display: flex;
+  gap: 12px;
+  margin: 30px 0;
+}
+.index-actions .primary {
+  flex: 1;
+  justify-content: center;
+  font-size: 13px;
+  min-width: 0;
+}
+.index-actions > a:last-child {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 23px;
+}
+.index-book .summary {
+  text-align: left;
+  font:
+    17px/1.8 Georgia,
+    serif;
+}
+.index-book .author-card {
+  text-align: left;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 20px;
+}
+.index-book .author-card h2 {
+  font-size: 19px;
+  margin-bottom: 14px;
+}
+.index-book .author-card p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.index-main {
+  min-width: 0;
+  padding: 0 0 30px;
+}
+.index-toolbar {
+  display: flex;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px 24px;
+  z-index: 1;
+  border-bottom: 1px solid var(--line);
+  /* stretch to the right edge of the viewport */
+  margin-right: calc(-1 * (100vw - 100%));
+  padding-right: max(24px, calc((100vw - 100%) + 24px));
+}
+.index-toolbar input,
+.index-toolbar select {
+  margin: 0;
+}
+.index-toolbar input {
+  flex: 1;
+  min-width: 0;
+}
+.index-toolbar select {
+  width: 220px;
+}
+.index-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 15px 24px;
+}
+.index-status h2 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.chapter-card {
+  display: block;
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 21px 24px;
+  margin-bottom: 12px;
+  border-radius: 9px;
+  min-height: 100px;
+  transition: background 0.15s;
+}
+.chapter-card small {
+  color: var(--muted);
+  font:
+    11px/1.6 ui-monospace,
+    monospace;
+  letter-spacing: 1px;
+}
+.chapter-card h3 {
+  font:
+    600 22px/1.4 Georgia,
+    serif;
+  margin: 6px 65px 0 0;
+  color: var(--accent);
+}
+.chapter-badge {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  font:
+    9px ui-monospace,
+    monospace;
+  background: var(--bg);
+  padding: 5px 9px;
+  border-radius: 20px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.chapter-card:hover,
+.chapter-card.last-read {
+  background: var(--accent);
+  color: var(--bg);
+}
+.chapter-card:hover h3,
+.chapter-card.last-read h3,
+.chapter-card:hover small,
+.chapter-card.last-read small {
+  color: var(--bg);
+}
+#support .primary {
+  width: fit-content;
+}
+.index-main #index-results:empty {
+  min-height: 200px;
+}
+#index-results {
+  padding: 0 24px;
+}
+@media (max-width: 850px) {
+  #chapter-index {
+    grid-template-columns: 1fr;
+  }
+  .index-book {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 25px 7%;
+  }
+  .index-book img {
+    width: 140px;
+    max-height: 200px;
+  }
+  .index-book h1 {
+    font-size: 30px;
+  }
+  .index-book .summary,
+  .index-book > p.muted:last-of-type {
+    display: none;
+  }
+  .index-book .author-card {
+    max-width: 480px;
+    margin: 20px auto 0;
+  }
+  .index-actions {
+    max-width: 420px;
+    margin: 22px auto;
+  }
+  .index-book .eyebrow {
+    margin-bottom: 15px;
+  }
+  .index-main {
+    padding: 0 0 20px;
+  }
+  .index-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 16px;
+    padding-right: max(16px, calc((100vw - 100%) + 16px));
+  }
+  .index-status {
+    padding: 15px 16px;
+  }
+  #index-results {
+    padding: 0 16px;
+  }
+  .index-toolbar input {
+    width: calc(100% - 65px);
+    flex: auto;
+  }
+  .index-toolbar select {
+    width: 100%;
+  }
+  .chapter-card {
+    padding: 20px 16px;
+  }
+  .chapter-card h3 {
+    font-size: 20px;
+  }
+  header {
+    height: auto;
+    min-height: 90px;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 15px 5%;
+  }
+  nav {
+    flex-wrap: wrap;
+  }
+  nav button {
+    font-size: 11px;
+    padding: 9px;
+  }
+  .chapter-badge {
+    font-size: 8px;
+  }
+  .brand {
+    font-size: 23px;
+  }
+}

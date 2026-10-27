@@ -155,11 +155,11 @@
     }
   }
   function apply() {
-    let bgUrl = "assets/background.webp";
+    let bgUrl = "/assets/images/background.webp";
     if (state.source === "color") {
       bgUrl = null;
     } else if (state.source === "artwork2") {
-      bgUrl = "assets/background_image-2.jpg";
+      bgUrl = "/assets/images/background_image-2.jpg";
     } else if (state.source === "custom" && customURL) {
       bgUrl = customURL;
     } else if (state.source === "url" && remoteURL) {

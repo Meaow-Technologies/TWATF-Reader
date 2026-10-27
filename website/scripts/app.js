@@ -67,12 +67,12 @@ const fonts = {
   mono: 'ui-monospace, "Courier New", monospace',
 };
 const covers = {
-  first: "assets/first-cover.webp",
-  revised: "assets/revised-cover.webp",
+  first: "assets/images/first-cover.webp",
+  revised: "assets/images/revised-cover.webp",
 };
 const epubs = {
-  first: "assets/The_World_After_The_Fall_First_Edition.epub",
-  revised: "assets/The_World_After_The_Fall_Revised.epub",
+  first: "assets/downloads/The_World_After_The_Fall_First_Edition.epub",
+  revised: "assets/downloads/The_World_After_The_Fall_Revised.epub",
 };
 
 // Derive mode from pathname

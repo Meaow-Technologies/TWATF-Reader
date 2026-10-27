@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="website/assets/background.png" alt="The World After the Fall — Banner" width="100%" />
+  <img src="website/assets/images/background.png" alt="The World After the Fall — Banner" width="100%" />
   <h1>The World After the Fall — Reader</h1>
   <p>A fan-made static reader for <strong>The World After the Fall</strong> by Sing Shong — first and revised editions.</p>
 

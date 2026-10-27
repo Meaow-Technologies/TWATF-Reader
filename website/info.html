@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
     <meta name="theme-color" content="#101411" />
     <meta name="description" content="About the TWATF Reader, a fan-made home for The World After the Fall by Sing Shong: editions, EPUB downloads and credits." />
     <link rel="canonical" href="https://twatf.pages.dev/info" />
@@ -11,13 +11,13 @@
     <meta property="og:title" content="About — The World After the Fall" />
     <meta property="og:description" content="About the TWATF Reader, a fan-made home for The World After the Fall by Sing Shong: editions, EPUB downloads and credits." />
     <meta property="og:url" content="https://twatf.pages.dev/info" />
-    <meta property="og:image" content="https://twatf.pages.dev/assets/og-image.jpg" />
+    <meta property="og:image" content="https://twatf.pages.dev/assets/images/og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="About — The World After the Fall" />
     <meta name="twitter:description" content="About the TWATF Reader, a fan-made home for The World After the Fall by Sing Shong: editions, EPUB downloads and credits." />
     <title>About — The World After the Fall</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="assets/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="icon" href="assets/images/icon.png" type="image/png">
   </head>
   <body class="info-page" data-theme="oled">
     <a class="info-back" href="/" aria-label="Back to Home">←</a>
@@ -41,7 +41,7 @@
                 rel="noopener noreferrer"
                 aria-label="TheLX23 on Discord"
                 ><img
-                  src="assets/lx-avatar.png"
+                  src="assets/profiles/lx-avatar.png"
                   alt="TheLX23 profile picture"
                   width="80"
                   height="80"
@@ -79,7 +79,7 @@
                 rel="noopener noreferrer"
                 aria-label="Mr. Meaow46 on Discord"
                 ><img
-                  src="assets/meaow-avatar.png"
+                  src="assets/profiles/meaow-avatar.png"
                   alt="Mr. Meaow46 profile picture"
                   width="80"
                   height="80"
@@ -282,8 +282,8 @@
           </section>
           <div class="info-links">
             <a href="chapters.html">▤ &nbsp; Chapters</a
-            ><a href="assets/The_World_After_The_Fall_First_Edition.epub" download>↓ &nbsp; First Edition EPUB</a
-            ><a href="assets/The_World_After_The_Fall_Revised.epub" download>↓ &nbsp; Revised EPUB</a
+            ><a href="assets/downloads/The_World_After_The_Fall_First_Edition.epub" download>↓ &nbsp; First Edition EPUB</a
+            ><a href="assets/downloads/The_World_After_The_Fall_Revised.epub" download>↓ &nbsp; Revised EPUB</a
             ><a href="index.html">← &nbsp; Home</a>
           </div>
         </div>
@@ -292,9 +292,9 @@
         A world beyond the tower. A place to keep reading.
       </p>
     </main>
-    <script src="config.js"></script>
-    <script src="community.js" defer></script>
-    <script src="guard.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/community.js" defer></script>
+    <script src="scripts/guard.js"></script>
     <script>
       try {
         document.body.dataset.theme =
@@ -302,6 +302,6 @@
           "oled";
       } catch {}
     </script>
-    <script src="background.js" defer></script>
+    <script src="scripts/background.js" defer></script>
   </body>
 </html>

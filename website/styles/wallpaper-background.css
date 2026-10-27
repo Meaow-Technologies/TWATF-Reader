@@ -1,0 +1,297 @@
+/* User-controlled wallpaper, shared by every page. */
+:root {
+  --wallpaper: url("/assets/images/background.webp");
+  --wallpaper-color: #101411;
+  --wallpaper-blur: 0px;
+  --wallpaper-brightness: 0.7;
+  --wallpaper-zoom: 1;
+  --wallpaper-position: 50% 50%;
+  --reading-opacity: 97%;
+}
+body::before {
+  inset: -45px;
+  background-image: var(--wallpaper);
+  background-color: var(--wallpaper-color);
+  background-position: var(--wallpaper-position);
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(var(--wallpaper-blur)) brightness(var(--wallpaper-brightness));
+  transform: scale(var(--wallpaper-zoom));
+}
+@media (max-width: 720px) {
+  body::before {
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+    background-size: cover;
+    transform: scale(var(--wallpaper-zoom));
+    transform-origin: center center;
+  }
+}
+#reader {
+  background: color-mix(in srgb, var(--bg) var(--reading-opacity), transparent);
+}
+.background-open.info-button {
+  padding: 7px;
+  border: 1px solid var(--line);
+  min-width: 38px;
+}
+.info-page > .background-open {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  background: var(--bg);
+}
+.background-preferences-link {
+  width: 100%;
+  text-align: left;
+  margin-top: 12px;
+}
+.background-preview-section {
+  margin-bottom: 24px;
+}
+.background-preview-section,
+.background-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.background-section + .background-section {
+  margin-top: 26px;
+}
+.background-preview {
+  height: 170px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+.background-preview-art {
+  position: absolute;
+  inset: -25px;
+  z-index: -1;
+  background-image: var(--wallpaper);
+  background-color: var(--wallpaper-color);
+  background-position: var(--wallpaper-position);
+  background-size: cover;
+  filter: blur(var(--wallpaper-blur)) brightness(var(--wallpaper-brightness));
+  transform: scale(var(--wallpaper-zoom));
+}
+.background-preview > span {
+  font:
+    italic 24px Georgia,
+    serif;
+  color: white;
+  text-shadow: 0 2px 12px #000;
+  background: #0003;
+  padding: 10px;
+  border-radius: 8px;
+}
+.background-controls {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+.background-subpanel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg) 42%, var(--panel));
+}
+.background-subpanel[hidden] {
+  display: none;
+}
+.settings-help-text {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.settings-file-input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: var(--bg);
+  font: 12px "DM Sans", sans-serif;
+}
+.settings-file-input:hover {
+  border-color: var(--accent);
+}
+.btn-danger-subtle,
+.settings-btn-apply {
+  align-self: flex-start;
+  padding: 7px 11px;
+  border-radius: 8px;
+  font: 600 11px "DM Sans", sans-serif;
+  transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.1s;
+}
+.btn-danger-subtle {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.3);
+}
+.btn-danger-subtle:hover {
+  color: #ef4444;
+  border-color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+.settings-btn-apply {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+}
+.settings-btn-apply:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, var(--panel));
+}
+.btn-danger-subtle:active,
+.settings-btn-apply:active,
+.background-done-btn:active {
+  transform: scale(0.95);
+}
+.background-color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.settings-color-input {
+  width: 100%;
+  height: 42px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+}
+.background-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.background-range-card {
+  padding: 11px 12px 9px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg) 35%, var(--panel));
+}
+.background-range-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.range-val {
+  color: var(--accent);
+  font: 600 11px "DM Sans", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.settings-range {
+  width: 100%;
+  margin: 9px 0 0;
+  padding: 0;
+  accent-color: var(--accent);
+}
+.background-range {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px;
+  margin: 16px 0;
+}
+.background-range input {
+  grid-column: 1/-1;
+  margin: 2px 0;
+  padding: 0;
+  height: 24px;
+}
+.background-range output {
+  font-size: 12px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+#background-color {
+  height: 45px;
+  padding: 4px;
+  width: 100%;
+}
+.background-url-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.background-url-row input {
+  min-width: 0;
+  margin: 0;
+  flex: 1;
+}
+.background-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border-top: 1px solid color-mix(in srgb, var(--line) 50%, transparent);
+  margin-top: 26px;
+  padding-top: 18px;
+}
+.background-footer .primary {
+  min-width: 90px;
+  justify-content: center;
+}
+.background-footer button {
+  font-size: 12px;
+}
+#background-settings #background-status {
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+  text-align: left;
+}
+.background-done-btn {
+  min-width: 90px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  border-color: var(--accent);
+  color: var(--bg);
+  background: var(--accent);
+  font: 600 12px "DM Sans", sans-serif;
+  transition: background 0.18s, border-color 0.18s, transform 0.1s;
+}
+.background-done-btn:hover {
+  border-color: var(--accent);
+  color: var(--bg);
+  background: color-mix(in srgb, var(--accent) 82%, white);
+}
+#background-file {
+  font-size: 12px;
+}
+#background-settings input:disabled {
+  opacity: 0.35;
+}
+@media (max-width: 480px) {
+  #background-settings {
+    padding: 0;
+  }
+  .background-preview {
+    height: 120px;
+  }
+  .background-url-row {
+    flex-wrap: wrap;
+  }
+  .background-url-row input {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .background-controls-grid {
+    grid-template-columns: 1fr;
+  }
+}

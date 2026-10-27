@@ -1,0 +1,161 @@
+/* Full-width header with balanced, viewport-relative gutters. */
+body > header {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(20px, 5vw, 76px);
+  padding-right: clamp(20px, 5vw, 76px);
+}
+body > header > nav {
+  align-items: center;
+  justify-content: flex-end;
+}
+@media (max-width: 720px) {
+  body:has(#home:not([hidden])) > header {
+    position: relative;
+    top: auto;
+  }
+  body:has(#home:not([hidden])) .hero {
+    min-height: auto;
+  }
+}
+@media (max-width: 480px) {
+  body > header {
+    padding: 16px 20px;
+    justify-content: center;
+    gap: 14px;
+  }
+  body > header > .brand {
+    text-align: center;
+  }
+  body > header > nav {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+#comments {
+  margin: 45px auto 0;
+  max-width: 740px;
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+#comments h2 {
+  font:
+    26px Georgia,
+    serif;
+}
+#giscus-thread {
+  margin-top: 24px;
+  min-width: 0;
+}
+.giscus-frame {
+  width: 100%;
+  border: 0;
+}
+
+/* In-reader chapter picker: the underlying chapter stays in place. */
+.chapter-popup-open {
+  overflow: hidden;
+}
+#contents {
+  width: min(680px, 94vw);
+  max-height: 85dvh;
+  padding: 25px 20px 15px;
+  overflow: hidden;
+}
+#contents .dialog-head {
+  margin: 0 0 22px;
+}
+#contents .dialog-head h2 {
+  color: var(--accent);
+  font-weight: 600;
+}
+#contents .dialog-head h2:after {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 4px;
+  margin-top: 12px;
+}
+.popup-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.popup-filters input,
+.popup-filters select {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+#contents #count {
+  margin: 12px 4px;
+}
+#contents #chapter-results {
+  position: relative;
+  max-height: calc(85dvh - 210px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding-right: 3px;
+}
+#chapter-results .popup-chapter {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 7px;
+  padding: 13px 15px;
+  margin: 3px 0;
+  line-height: 1.5;
+  color: var(--text);
+}
+.popup-number {
+  min-width: 40px;
+  color: var(--muted);
+  font:
+    12px ui-monospace,
+    monospace;
+}
+.popup-title {
+  font:
+    16px/1.5 Georgia,
+    serif;
+  flex: 1;
+}
+.popup-star {
+  color: var(--accent);
+  font-size: 12px;
+}
+#chapter-results .popup-chapter:hover,
+#chapter-results .current-chapter {
+  background: color-mix(in srgb, var(--accent) 13%, var(--panel));
+  color: var(--accent);
+}
+#chapter-results .current-chapter .popup-number {
+  color: var(--accent);
+}
+@media (max-width: 480px) {
+  #contents {
+    padding: 20px 14px 12px;
+  }
+  .popup-filters {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  #contents #chapter-results {
+    max-height: calc(85dvh - 250px);
+  }
+  .popup-title {
+    font-size: 15px;
+  }
+  #chapter-results .popup-chapter {
+    padding: 12px 10px;
+    gap: 8px;
+  }
+}

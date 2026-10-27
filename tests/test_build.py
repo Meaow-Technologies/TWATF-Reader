@@ -22,17 +22,17 @@ class BuildTests(unittest.TestCase):
   self.assertFalse((self.root/'dist/data/first/99.json').exists())
   for v in builder.EDITIONS:
    epub_name=builder.EPUB_NAMES[v]
-   with zipfile.ZipFile(self.root/f'dist/assets/{epub_name}.epub') as z:
+   with zipfile.ZipFile(self.root/f'dist/assets/downloads/{epub_name}.epub') as z:
     content=z.read('OEBPS/chapter-1.xhtml').decode()
     self.assertEqual('Verified correction' in content,v=='first')
-    builder.verify_epub(self.root/f'dist/assets/{epub_name}.epub',builder.read_chapters(self.root,v))
+    builder.verify_epub(self.root/f'dist/assets/downloads/{epub_name}.epub',builder.read_chapters(self.root,v))
   self.assertIn('2 chapters',(self.root/'dist/index.html').read_text())
  def test_invalid_source_preserves_last_good_build(self):
   revised_epub=f'{builder.EPUB_NAMES["revised"]}.epub'
-  builder.build(self.root);before=(self.root/f'dist/assets/{revised_epub}').read_bytes()
+  builder.build(self.root);before=(self.root/f'dist/assets/downloads/{revised_epub}').read_bytes()
   (self.root/'chapters/revised/0001.xhtml').write_text('<broken>')
   with self.assertRaises(ValueError):builder.build(self.root)
-  self.assertEqual(before,(self.root/f'dist/assets/{revised_epub}').read_bytes())
+  self.assertEqual(before,(self.root/f'dist/assets/downloads/{revised_epub}').read_bytes())
  def test_missing_chapter_fails(self):
   (self.root/'chapters/first/0001.xhtml').unlink()
   with self.assertRaises(ValueError):builder.build(self.root)
@@ -42,7 +42,7 @@ class BuildTests(unittest.TestCase):
   expected=''.join(ET.parse(p).getroot().find(builder.NS+'body').itertext())
   builder.build(self.root)
   revised_epub=f'{builder.EPUB_NAMES["revised"]}.epub'
-  with zipfile.ZipFile(self.root/f'dist/assets/{revised_epub}') as z:
+  with zipfile.ZipFile(self.root/f'dist/assets/downloads/{revised_epub}') as z:
    actual=ET.fromstring(z.read('OEBPS/chapter-2.xhtml')).find(builder.NS+'body')
    self.assertEqual(''.join(actual.itertext()),expected)
  def test_discoverability_and_indexability(self):

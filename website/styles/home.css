@@ -1,0 +1,239 @@
+.hero {
+  max-width: 1250px;
+  margin: auto;
+  min-height: 690px;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 9%;
+  align-items: center;
+  padding: 65px 6% 60px;
+}
+.art {
+  position: relative;
+  text-align: center;
+  isolation: isolate;
+}
+.art:before {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(ellipse, #84987930, transparent 65%);
+  z-index: -2;
+}
+.orbit {
+  position: absolute;
+  width: 112%;
+  height: 75%;
+  border: 1px solid #73836340;
+  border-radius: 50%;
+  transform: rotate(-28deg);
+  left: -6%;
+  top: 12%;
+  z-index: -1;
+}
+.art img {
+  width: 78%;
+  max-height: 455px;
+  object-fit: cover;
+  box-shadow: 15px 25px 60px #0008;
+  transform: rotate(-4deg);
+  border: 1px solid #aec0a555;
+  border-radius: 3px;
+}
+.art-caption {
+  display: block;
+  margin-top: 38px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+h1 {
+  font:
+    500 clamp(45px, 5vw, 72px)/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: -2px;
+  margin: 0;
+}
+h1 em {
+  color: var(--accent);
+}
+.summary {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.9;
+  margin: 25px 0 30px;
+}
+.editions {
+  padding: 0;
+  border: 0;
+  display: flex;
+  gap: 10px;
+  margin: 0 0 25px;
+}
+.editions legend {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.editions button {
+  text-align: left;
+  flex: 1;
+  padding: 14px;
+}
+.editions button span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 6px;
+}
+.selected {
+  border-color: var(--accent);
+  background: #a9bf8e10;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.primary {
+  background: var(--accent);
+  color: #172015;
+  border: 0;
+  border-radius: 6px;
+  min-width: 190px;
+  padding: 16px 20px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.15s;
+}
+.primary:hover {
+  background: #d9e4ba;
+}
+.actions > a:not(.primary),
+.actions #download {
+  font-size: 11px;
+  border-bottom: 1px solid var(--line);
+  padding: 9px 0;
+  text-decoration: none;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.actions > a:not(.primary):hover,
+.actions #download:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.muted {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+#resume-note {
+  margin-top: 18px;
+}
+footer {
+  max-width: 1200px;
+  margin: auto;
+  border-top: 1px solid var(--line);
+  padding: 25px 3%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+footer button {
+  border: 0;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+#reader {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px 30px 60px;
+}
+.reader-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.reader-meta button {
+  border: 0;
+  font-size: 11px;
+}
+article {
+  max-width: 700px;
+  margin: 60px auto;
+  font: var(--size)/1.9 var(--font);
+  overflow-wrap: anywhere;
+}
+article h1 {
+  font:
+    500 2em/1.3 "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: -0.5px;
+  margin-bottom: 40px;
+}
+article h2 {
+  font-size: 1.25em;
+}
+article p {
+  margin: 1.1em 0;
+}
+article p:empty {
+  display: none;
+}
+.reader-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  gap: 12px;
+}
+.reader-nav button,
+.reader-nav a {
+  font: inherit;
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 17px;
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.reader-nav button:hover,
+.reader-nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.reader-nav button:disabled,
+.reader-nav button[disabled],
+.reader-nav a.disabled,
+.reader-nav a[disabled] {
