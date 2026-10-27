@@ -375,7 +375,7 @@ async function route() {
 
   if (routeInfo.mode === "reader") {
     const v = routeInfo.edition, n = routeInfo.n;
-    if (!catalog) return; // wait for catalog
+    if (!catalog) return; // wait for catalogue
     const entry = catalog[v]?.find((c) => c.number === n);
     if (!entry) {
       toast("This chapter does not exist.");

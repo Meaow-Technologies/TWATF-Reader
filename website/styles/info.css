@@ -214,6 +214,292 @@ body.header-hidden > header {
   margin: 0 0 22px;
 }
 
+/* ── Discord server directory ── */
+.discord-servers-dialog {
+  width: min(760px, 94vw);
+  max-height: min(88dvh, 820px);
+  padding: 0;
+  overflow: hidden;
+}
+.discord-servers-dialog[open] {
+  animation: settings-pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.discord-servers-dialog .dialog-head {
+  margin: 0;
+  padding: 22px 26px 18px;
+  background: linear-gradient(110deg, #5865f2, #b85cf6, #f08eb4);
+  color: #fff;
+}
+.discord-servers-dialog .dialog-head h2 {
+  margin: 0;
+  color: #fff;
+  font:
+    600 27px "Playfair Display",
+    Georgia,
+    serif;
+}
+.discord-servers-dialog .dialog-head .btn-close {
+  color: #fff;
+  border-color: #ffffff66;
+}
+.discord-servers-body {
+  padding: 24px 26px 28px;
+  overflow-y: auto;
+  background: var(--panel);
+}
+.discord-server-group + .discord-server-group {
+  margin-top: 28px;
+}
+.discord-server-group h3 {
+  margin: 0 0 12px;
+  color: var(--accent);
+  font:
+    600 11px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.discord-server-list {
+  display: grid;
+  gap: 12px;
+}
+.discord-server-card {
+  position: relative;
+  display: block;
+  min-height: 142px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg) 72%, var(--panel));
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+.discord-server-card:hover {
+  border-color: var(--accent);
+  background: var(--panel);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.discord-server-card.is-unavailable {
+  cursor: default;
+  opacity: 0.82;
+}
+.discord-server-card.is-unavailable:hover {
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--bg) 72%, var(--panel));
+  transform: none;
+}
+.discord-server-art {
+  height: 72px;
+  border-radius: 11px 11px 0 0;
+  background-position: center;
+  background-size: cover;
+  background-color: #263d5a;
+}
+.discord-server-card-workshop .discord-server-art {
+  background-image: url("/assets/servers/workshop.png");
+}
+.discord-server-card-twatf .discord-server-art {
+  background-image: url("/assets/servers/twatf-banner.png");
+}
+.discord-server-card-wiki .discord-server-art {
+  background-color: #a88448;
+}
+.discord-server-icon {
+  position: absolute;
+  top: 42px;
+  left: 16px;
+  width: 58px;
+  height: 58px;
+  padding: 3px;
+  border: 3px solid var(--panel);
+  border-radius: 50%;
+  background: var(--panel);
+  overflow: hidden;
+}
+.discord-server-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.discord-server-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  padding: 34px 46px 14px 88px;
+}
+.discord-server-copy strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.discord-server-copy small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.discord-server-arrow {
+  position: absolute;
+  right: 16px;
+  bottom: 17px;
+  color: var(--accent);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* The Discord directory intentionally reuses the info page profile-card layout. */
+.discord-servers-dialog {
+  width: min(1100px, 94vw);
+  max-height: min(92dvh, 900px);
+  padding: 0;
+  overflow: auto;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  scrollbar-width: none;
+}
+.discord-servers-dialog::-webkit-scrollbar {
+  display: none;
+}
+.discord-servers-shell {
+  position: relative;
+  padding: 50px 55px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  box-shadow: 0 25px 80px #0005;
+}
+.discord-servers-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+.discord-servers-shell .info-heading {
+  margin-bottom: 36px;
+}
+.discord-servers-shell .info-heading h1 {
+  margin: 0;
+}
+.discord-server-profiles > h2 {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font:
+    600 12px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.discord-server-profiles > h2:not(:first-child) {
+  margin-top: 30px;
+}
+.discord-server-profiles .developer-profile {
+  max-width: none;
+  margin-bottom: 20px;
+}
+.discord-server-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.discord-server-list .developer-profile {
+  margin-bottom: 0;
+}
+.discord-server-profile .identity-icon {
+  cursor: default;
+}
+.discord-server-profile .developer-links {
+  min-height: 22px;
+}
+.discord-server-link.is-unavailable {
+  cursor: default;
+  opacity: 0.55;
+  text-decoration: none;
+}
+.discord-server-workshop {
+  background: #192139;
+  border-color: #47547a;
+}
+.discord-server-workshop .identity-art {
+  background: #263d5a;
+}
+.discord-server-workshop .identity-icon {
+  border-color: #192139;
+  background: #303b60;
+}
+.discord-server-workshop .developer-links {
+  color: #d1c9e7;
+}
+.discord-server-meaowland {
+  background: #192139;
+  border-color: #47547a;
+}
+.discord-server-meaowland .identity-art {
+  background-image: url("/assets/profiles/meaow-banner.png");
+  background-position: center 65%;
+}
+.discord-server-meaowland .identity-icon {
+  border-color: #192139;
+  background: #303b60;
+}
+.discord-server-meaowland .developer-links {
+  color: #d1c9e7;
+}
+.discord-recommended {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 3px 8px;
+  border: 1px solid #c4d1a166;
+  border-radius: 999px;
+  color: var(--accent);
+  font:
+    600 9px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.discord-server-twatf {
+  background: #321b2b;
+  border-color: #8f4b69;
+}
+.discord-server-twatf .identity-art {
+  background-image: url("/assets/servers/twatf-banner.png");
+  background-position: center;
+}
+.discord-server-twatf .identity-icon {
+  border-color: #321b2b;
+  background: #6d3453;
+}
+.discord-server-twatf .developer-links {
+  color: #f0b2d0;
+}
+.discord-server-wiki {
+  background: #493b22;
+  border-color: #a88448;
+}
+.discord-server-wiki .identity-art {
+  background: #a88448;
+}
+.discord-server-wiki .identity-icon {
+  border-color: #493b22;
+  background: #7d632f;
+}
+.discord-server-wiki .developer-links {
+  color: #f1d28d;
+}
+@media (max-width: 720px) {
+  .discord-servers-shell {
+    padding: 42px 22px 28px;
+  }
+  .discord-server-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 /* ── Visually hidden (screen-reader only) ── */
