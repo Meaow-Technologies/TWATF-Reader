@@ -8,18 +8,52 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow: auto;
+  overflow-y: auto;
+  scrollbar-width: none;
   padding: 30px 8%;
   text-align: center;
   border-right: 1px solid var(--line);
   background: radial-gradient(ellipse at 50% 30%, #80977e20, transparent 65%);
 }
+.index-book::-webkit-scrollbar {
+  display: none;
+}
+.index-book-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 25px;
+}
 .index-back {
-  display: block;
+  display: inline-flex;
   text-align: left;
   color: var(--muted);
   font-size: 12px;
-  margin-bottom: 25px;
+  margin: 0;
+}
+.index-settings {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 16px;
+}
+.index-settings:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.index-book-primary,
+.index-book-secondary {
+  min-width: 0;
+}
+.index-book-secondary {
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+  padding-top: 24px;
 }
 .index-book img {
   width: 65%;
@@ -81,7 +115,6 @@
 }
 .index-toolbar {
   display: flex;
-  gap: 12px;
   position: sticky;
   top: 0;
   background: color-mix(in srgb, var(--bg) 92%, transparent);
@@ -90,9 +123,14 @@
   padding: 20px 24px;
   z-index: 1;
   border-bottom: 1px solid var(--line);
-  /* stretch to the right edge of the viewport */
-  margin-right: calc(-1 * (100vw - 100%));
-  padding-right: max(24px, calc((100vw - 100%) + 24px));
+  justify-content: center;
+}
+.index-toolbar-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 720px);
 }
 .index-toolbar input,
 .index-toolbar select {
@@ -175,6 +213,24 @@
 #index-results {
   padding: 0 24px;
 }
+.index-info-toggle {
+  display: none;
+}
+#index-info {
+  width: min(680px, 94vw);
+  max-height: min(82dvh, 760px);
+  padding: 25px 24px 20px;
+  overflow: auto;
+}
+#index-info .dialog-head {
+  margin: 0 0 20px;
+}
+.index-info-dialog-body .author-card {
+  margin-bottom: 0;
+}
+body:has(#chapter-index:not([hidden])) > header {
+  display: none;
+}
 @media (max-width: 850px) {
   #chapter-index {
     grid-template-columns: 1fr;
@@ -182,6 +238,7 @@
   .index-book {
     position: relative;
     height: auto;
+    max-height: none;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     padding: 25px 7%;
@@ -193,13 +250,34 @@
   .index-book h1 {
     font-size: 30px;
   }
-  .index-book .summary,
-  .index-book > p.muted:last-of-type {
+  .index-book-secondary {
+    position: relative;
+    max-height: 150px;
+    overflow: hidden;
+    padding-bottom: 42px;
+  }
+  .index-book-secondary::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 58px;
+    background: linear-gradient(transparent, var(--bg));
+    pointer-events: none;
+  }
+  .index-book-secondary .author-card {
     display: none;
   }
-  .index-book .author-card {
-    max-width: 480px;
-    margin: 20px auto 0;
+  .index-info-toggle {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 8px 14px;
+    font-size: 11px;
+    background: var(--panel);
   }
   .index-actions {
     max-width: 420px;
@@ -213,9 +291,11 @@
   }
   .index-toolbar {
     flex-wrap: wrap;
-    gap: 8px;
     padding: 16px 16px;
-    padding-right: max(16px, calc((100vw - 100%) + 16px));
+  }
+  .index-toolbar-controls {
+    width: 100%;
+    gap: 8px;
   }
   .index-status {
     padding: 15px 16px;

@@ -114,6 +114,10 @@ function indexRender() {
     : "Start reading →";
   $("#index-description").textContent =
     `${version === "first" ? "First edition" : "Revised edition"} · ${catalog[version].length} chapters`;
+  const indexInfoDescription = $("#index-info-description");
+  if (indexInfoDescription)
+    indexInfoDescription.textContent =
+      `${version === "first" ? "First edition" : "Revised edition"} · ${catalog[version].length} chapters`;
   const q = $("#index-search").value.trim().toLowerCase();
   let rows = catalog[version].filter(
     (c) => c.title.toLowerCase().includes(q) || String(c.number) === q,
@@ -482,6 +486,12 @@ $("#back").onclick = () => {
 $(".brand").href = "/";
 $(".brand").onclick = storePosition;
 $("#settings").onclick = () => $("#preferences").showModal();
+$("#index-settings")?.addEventListener("click", () => $("#preferences").showModal());
+document
+  .querySelectorAll(".index-info-toggle")
+  .forEach((button) =>
+    button.addEventListener("click", () => $("#index-info").showModal()),
+  );
 const settingsReset = $("#settings-reset");
 if (settingsReset) {
   settingsReset.onclick = () => {
@@ -495,7 +505,7 @@ if (settingsReset) {
 document
   .querySelectorAll("[data-close]")
   .forEach((b) => (b.onclick = () => $("#" + b.dataset.close).close()));
-["preferences", "contents", "support"].forEach((id) => {
+["preferences", "contents", "support", "index-info"].forEach((id) => {
   const dlg = $("#" + id);
   if (dlg) {
     dlg.addEventListener("click", (e) => {

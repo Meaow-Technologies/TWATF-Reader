@@ -178,8 +178,14 @@
     </main>
     <main id="chapter-index">
       <aside class="index-book">
-        <a href="/" class="index-back">← Home</a
-        ><img
+        <div class="index-book-topbar">
+          <a href="/" class="index-back">← Home</a>
+          <button id="index-settings" class="index-settings" aria-label="Settings" title="Settings">
+            ⚙
+          </button>
+        </div>
+        <div class="index-book-primary">
+        <img
           id="index-cover"
           src="assets/images/revised-cover.webp"
           alt="The World After the Fall cover"
@@ -199,7 +205,9 @@
             >↓</a
           >
         </div>
-        <p class="summary">
+        </div>
+        <div class="index-book-secondary">
+        <p class="summary index-description-preview">
           The tower was only the beginning. Enter a world where one man refuses
           to turn back.
         </p>
@@ -230,24 +238,21 @@
             and occasional written Q&amp;As.
           </p>
         </section>
+        <button type="button" class="index-info-toggle" aria-controls="index-info" aria-haspopup="dialog">
+          More about this book
+        </button>
+        </div>
       </aside>
       <section class="index-main" aria-label="Chapter index">
         <div class="index-toolbar">
-          <input
-            id="index-search"
-            type="search"
-            placeholder="Search title or number…"
-            aria-label="Search chapter index"
-          /><button
-            id="index-sort"
-            aria-label="Reverse chapter order"
-            title="Reverse chapter order"
-          >
-            ↑↓</button
-          ><select id="index-version" aria-label="Choose edition">
-            <option value="first">First Edition</option>
-            <option value="revised" selected>Revised</option>
-          </select>
+          <div class="index-toolbar-controls">
+            <input id="index-search" type="search" placeholder="Search title or number…" aria-label="Search chapter index" />
+            <button id="index-sort" aria-label="Reverse chapter order" title="Reverse chapter order">↑↓</button>
+            <select id="index-version" aria-label="Choose edition">
+              <option value="first">First Edition</option>
+              <option value="revised" selected>Revised</option>
+            </select>
+          </div>
         </div>
         <div class="index-status">
           <h2>All chapters</h2>
@@ -256,6 +261,32 @@
         <div id="index-results"><!-- CHAPTER_CARDS --></div>
       </section>
     </main>
+    <dialog id="index-info" aria-labelledby="index-info-title">
+      <div class="dialog-head">
+        <h2 id="index-info-title">About this book</h2>
+        <button data-close="index-info" aria-label="Close book information">✕</button>
+      </div>
+      <div class="index-info-dialog-body">
+        <p class="summary">The tower was only the beginning. Enter a world where one man refuses to turn back.</p>
+        <p class="muted" id="index-info-description">Revised edition · {{REVISED_COUNT}} chapters</p>
+        <p class="muted">Your reading progress is saved separately for each edition on this device.</p>
+        <section class="info-card author-card">
+          <h2><span>✒</span> About the Author</h2>
+          <p>
+            <strong>Sing Shong</strong> (싱숑) is a married author duo who first met while studying creative writing at Dongguk University.
+            Working in tandem, Sing leads the core plotting and worldbuilding while Shong refines the prose, character dialogue, and editing.
+          </p>
+          <p>
+            Beyond <em>The World After the Fall</em> (their debut work), they are renowned worldwide as the creators of
+            <em>Omniscient Reader's Viewpoint</em> and <em>How to Become a Star Writer</em>.
+          </p>
+          <p>
+            The duo maintains strict personal anonymity and communicates with their fans exclusively through author notes, postscript remarks,
+            and occasional written Q&amp;As.
+          </p>
+        </section>
+      </div>
+    </dialog>
     <section id="reader" hidden>
       <div class="reader-meta">
         <button id="back">← Home</button><span id="edition-label"></span><button id="bookmark">☆ Bookmark</button>
