@@ -90,9 +90,21 @@ nav button {
   border: 0;
 }
 nav #settings {
-  font: 22px Georgia;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
-  padding: 7px 13px;
+  border-radius: 6px;
+  padding: 8px 10px;
+  align-self: center;
+  line-height: 1;
+}
+nav #settings:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+nav #settings svg {
+  display: block;
 }
 .hero {
   max-width: 1250px;
@@ -465,6 +477,9 @@ body[data-theme="dark"] .primary {
   nav button {
     padding: 10px;
     font-size: 12px;
+  }
+  nav #settings {
+    padding: 7px 9px;
   }
   .hero {
     grid-template-columns: 1fr;
