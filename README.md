@@ -1,7 +1,7 @@
 <div align="center">
   <img src="website/assets/images/background.png" alt="The World After the Fall — Banner" width="100%" />
   <h1>The World After the Fall — Reader</h1>
-  <p>A fan-made static reader for <strong>The World After the Fall</strong> by Sing Shong — first and revised editions.</p>
+  <p>A fan-made static reader for <strong>The World After the Fall</strong> by SingNShong — first and revised editions.</p>
 
   <p>
     🌐 <strong><a href="https://twatf.pages.dev">twatf.pages.dev</a></strong> &nbsp;|&nbsp;
@@ -14,12 +14,12 @@
 
 ## 📖 About TWATF
 
-**The World After the Fall** is a Korean fantasy novel by Sing Shong. After all of humanity is given a chance to regress back in time, one man — Jaehwan — refuses. He chooses to walk forward alone into an unknown world beyond the tower, into *the world after the fall*.
+**The World After the Fall** is a Korean fantasy novel by SingNShong. After all of humanity is given a chance to regress back in time, one man — Jaehwan — refuses. He chooses to walk forward alone into an unknown world beyond the tower, into *the world after the fall*.
 
 There are two editions:
 
-- **First Edition** — The original 2016 publication by Sing Shong (247 chapters).
-- **Revised Edition** — After finishing Omniscient Reader's Viewpoint, Sing Shong revised TWATF to create a connected cosmology and republished it (267 chapters).
+- **First Edition** — The original 2016 publication by SingNShong (247 chapters).
+- **Revised Edition** — After finishing Omniscient Reader's Viewpoint, SingNShong revised TWATF to create a connected cosmology and republished it (267 chapters).
 
 ---
 

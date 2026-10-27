@@ -1,7 +1,7 @@
 {
   "name": "world-after-the-fall-reader",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "build": "python3 scripts/build.py",
     "test": "python3 -m unittest discover -s tests -v",
