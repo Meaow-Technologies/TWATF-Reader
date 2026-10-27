@@ -50,26 +50,95 @@
   const dialog = document.createElement("dialog");
   dialog.id = "background-settings";
   dialog.setAttribute("aria-labelledby", "background-title");
-  dialog.innerHTML = `<div class="dialog-head"><div><p class="eyebrow">MAKE IT YOURS</p><h2 id="background-title">Your background</h2></div><button id="background-close" aria-label="Close background settings">✕</button></div>
- <div class="background-preview" aria-label="Background preview"><div class="background-preview-art"></div><span>Find your atmosphere.</span></div>
- <label for="background-source">Background</label><select id="background-source"><option value="default">World After the Fall artwork</option><option value="artwork2">The World After the Fall Artwork 2</option><option value="custom">Your own image</option><option value="url">Image URL</option><option value="color">Solid colour</option></select>
- <div id="background-upload-panel" hidden><label for="background-file">Choose an image</label><input id="background-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="muted">JPG, PNG, WebP or GIF · up to 10 MB. Stored on this device only.</p><button id="background-remove" type="button">Remove uploaded image</button></div>
- <div id="background-url-panel" hidden><label for="background-url">HTTPS image URL</label><div class="background-url-row"><input id="background-url" type="url" placeholder="https://example.com/image.jpg"><button id="background-url-apply">Apply</button></div><p class="muted">Images load directly from that website. Its host receives the image request.</p></div>
- <div id="background-color-panel" hidden><label for="background-color">Background colour</label><input id="background-color" type="color" value="#101411"></div>
- <div class="background-controls">${[
-   ["brightness", "Brightness", "%", 15, 120, 1],
-   ["blur", "Blur", "px", 0, 20, 0.5],
-   ["zoom", "Zoom", "%", 100, 180, 1],
-   ["x", "Horizontal position", "%", 0, 100, 1],
-   ["y", "Vertical position", "%", 0, 100, 1],
-   ["panels", "Reading panel opacity", "%", 60, 100, 1],
- ]
-   .map(
-     ([k, label, unit, min, max, step]) =>
-       `<label class="background-range" for="background-${k}"><span>${label}</span><output id="background-${k}-value"></output><input id="background-${k}" type="range" min="${min}" max="${max}" step="${step}" data-unit="${unit}"></label>`,
-   )
-   .join("")}</div>
- <p class="muted" id="background-status" role="status">Changes save automatically on this device.</p><div class="background-footer"><button id="background-reset">Reset background</button><button id="background-done" class="primary">Done</button></div>`;
+  dialog.innerHTML = `<div class="dialog-head settings-head">
+    <h2 id="background-title" class="settings-title">
+      <svg class="settings-title-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <span>Customize Background</span>
+    </h2>
+    <div class="settings-actions">
+      <button id="background-reset" type="button" class="btn-reset" title="Reset background to default">Reset</button>
+      <button id="background-close" class="btn-close" aria-label="Close background settings">✕</button>
+    </div>
+  </div>
+  <div class="settings-body">
+    <div class="background-preview-section">
+      <div class="background-preview" aria-label="Background preview">
+        <div class="background-preview-art"></div>
+        <span>Find your atmosphere.</span>
+      </div>
+    </div>
+
+    <div class="background-section">
+      <h3 class="settings-section-title">Wallpaper Source</h3>
+      <div class="settings-field">
+        <label for="background-source" class="settings-label">Image or Style</label>
+        <select id="background-source" class="settings-select">
+          <option value="default">The World After the Fall Artwork 1</option>
+          <option value="artwork2">The World After the Fall Artwork 2</option>
+          <option value="custom">Your own image</option>
+          <option value="url">Image URL</option>
+          <option value="color">Solid colour</option>
+        </select>
+      </div>
+
+      <div id="background-upload-panel" class="background-subpanel" hidden>
+        <label for="background-file" class="settings-label">Choose an image</label>
+        <input id="background-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="settings-file-input">
+        <p class="muted settings-help-text">JPG, PNG, WebP or GIF · up to 10 MB. Stored on this device only.</p>
+        <button id="background-remove" type="button" class="btn-danger-subtle">Remove uploaded image</button>
+      </div>
+
+      <div id="background-url-panel" class="background-subpanel" hidden>
+        <label for="background-url" class="settings-label">HTTPS image URL</label>
+        <div class="background-url-row">
+          <input id="background-url" type="url" placeholder="https://example.com/image.jpg" class="settings-input">
+          <button id="background-url-apply" type="button" class="settings-btn-apply">Apply</button>
+        </div>
+        <p class="muted settings-help-text">Images load directly from that website. Its host receives the image request.</p>
+      </div>
+
+      <div id="background-color-panel" class="background-subpanel" hidden>
+        <label for="background-color" class="settings-label">Background colour</label>
+        <div class="background-color-row">
+          <input id="background-color" type="color" value="#101411" class="settings-color-input">
+        </div>
+      </div>
+    </div>
+
+    <div class="background-section">
+      <h3 class="settings-section-title">Adjustments</h3>
+      <div class="background-controls-grid">
+        ${[
+          ["brightness", "Brightness", "%", 15, 120, 1],
+          ["blur", "Blur", "px", 0, 20, 0.5],
+          ["zoom", "Zoom", "%", 100, 180, 1],
+          ["x", "Horizontal", "%", 0, 100, 1],
+          ["y", "Vertical", "%", 0, 100, 1],
+          ["panels", "Panel opacity", "%", 60, 100, 1],
+        ]
+          .map(
+            ([k, label, unit, min, max, step]) =>
+              `<div class="background-range-card">
+                <div class="background-range-header">
+                  <label for="background-${k}" class="settings-label">${label}</label>
+                  <output id="background-${k}-value" class="range-val"></output>
+                </div>
+                <input id="background-${k}" type="range" class="settings-range" min="${min}" max="${max}" step="${step}" data-unit="${unit}">
+              </div>`,
+          )
+          .join("")}
+      </div>
+    </div>
+
+    <div class="background-footer">
+      <p class="muted settings-footer-note" id="background-status" role="status">Changes save automatically on this device.</p>
+      <button id="background-done" type="button" class="background-done-btn">Done</button>
+    </div>
+  </div>`;
   document.body.append(dialog);
   const $ = (s) => dialog.querySelector(s);
   function message(t) {
@@ -295,6 +364,9 @@
     dialog.close();
   }
   $("#background-close").onclick = $("#background-done").onclick = close;
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) close();
+  });
   document.querySelectorAll(".background-open").forEach(
     (button) =>
       (button.onclick = () => {

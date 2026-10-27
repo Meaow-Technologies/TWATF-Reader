@@ -317,52 +317,94 @@
       <p id="count" class="muted"></p>
       <div id="chapter-results"></div>
     </dialog>
-    <dialog id="preferences">
-      <div class="dialog-head">
-        <h2>Make yourself at home.</h2>
-        <button data-close="preferences" aria-label="Close settings">✕</button>
-      </div>
-      <label
-        >Appearance<select id="theme">
-          <option value="dark">Forest night</option>
-          <option value="sepia">Warm paper</option>
-          <option value="light">Daylight</option>
-          <option value="nord">Nord</option>
-          <option value="dracula">Dracula</option>
-          <option value="solarized">Solarized dark</option>
-          <option value="mocha">Catppuccin Mocha</option>
-          <option value="oled" selected>OLED black</option>
-        </select></label
-      >
-      <div class="size-control">
-        <span id="size-label">Text size</span>
-        <div role="group" aria-labelledby="size-label">
-          <button id="size-down" aria-label="Decrease text size">−</button
-          ><output id="size" aria-live="polite">20 px</output
-          ><button id="size-up" aria-label="Increase text size">+</button>
+    <dialog id="preferences" aria-labelledby="settings-heading">
+      <div class="dialog-head settings-head">
+        <h2 id="settings-heading" class="settings-title">
+          <svg class="settings-title-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span>Settings</span>
+        </h2>
+        <div class="settings-actions">
+          <button id="settings-reset" type="button" class="btn-reset" title="Reset settings to defaults">Reset</button>
+          <button data-close="preferences" class="btn-close" aria-label="Close settings">✕</button>
         </div>
       </div>
-      <label
-        >Typeface<select id="font">
-          <option value="serif">Georgia</option>
-          <option value="palatino">Palatino</option>
-          <option value="times">Times New Roman</option>
-          <option value="sans-serif">System sans</option>
-          <option value="arial">Arial</option>
-          <option value="verdana">Verdana</option>
-          <option value="mono">Monospace</option>
-        </select></label
-      ><button
-        class="background-open background-preferences-link"
-        type="button"
-      >
-        Customize background →
-      </button>
-      <p class="font-sample">The tower was only the beginning.</p>
-      <p class="muted">
-        Settings, bookmarks, and progress stay in this browser. Each edition
-        remembers its own place.
-      </p>
+
+      <div class="settings-body">
+        <div class="settings-grid">
+          <div class="settings-col">
+            <h3 class="settings-section-title">Appearance</h3>
+
+            <div class="settings-field">
+              <label for="theme" class="settings-label">Theme</label>
+              <select id="theme" class="settings-select">
+                <option value="dark">Forest night</option>
+                <option value="sepia">Warm paper</option>
+                <option value="light">Daylight</option>
+                <option value="nord">Nord</option>
+                <option value="dracula">Dracula</option>
+                <option value="solarized">Solarized dark</option>
+                <option value="mocha">Catppuccin Mocha</option>
+                <option value="oled" selected>OLED black</option>
+              </select>
+            </div>
+
+            <div class="settings-field">
+              <label for="font" class="settings-label">Font</label>
+              <select id="font" class="settings-select">
+                <option value="serif">Georgia</option>
+                <option value="palatino">Palatino</option>
+                <option value="times">Times New Roman</option>
+                <option value="sans-serif">System sans</option>
+                <option value="arial">Arial</option>
+                <option value="verdana">Verdana</option>
+                <option value="mono">Monospace</option>
+              </select>
+            </div>
+
+            <div class="settings-field">
+              <button
+                class="background-open background-preferences-link settings-btn-bg"
+                type="button"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>Customize background →</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-col">
+            <h3 class="settings-section-title">Readability</h3>
+
+            <div class="settings-field">
+              <span id="size-label" class="settings-label">Text size</span>
+              <div class="size-control-row" role="group" aria-labelledby="size-label">
+                <button id="size-down" class="size-step-btn" aria-label="Decrease text size">−</button>
+                <output id="size" class="size-val" aria-live="polite">20 px</output>
+                <button id="size-up" class="size-step-btn" aria-label="Increase text size">+</button>
+              </div>
+            </div>
+
+            <div class="settings-field">
+              <span class="settings-label">Font preview</span>
+              <div class="font-sample-card">
+                <p class="font-sample">The tower was only the beginning.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="settings-footer-note muted">
+          Settings, bookmarks, and progress stay in this browser. Each edition
+          remembers its own place.
+        </p>
+      </div>
     </dialog>
     <dialog id="support">
       <div class="dialog-head">

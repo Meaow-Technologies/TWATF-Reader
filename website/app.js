@@ -482,9 +482,27 @@ $("#back").onclick = () => {
 $(".brand").href = "/";
 $(".brand").onclick = storePosition;
 $("#settings").onclick = () => $("#preferences").showModal();
+const settingsReset = $("#settings-reset");
+if (settingsReset) {
+  settingsReset.onclick = () => {
+    state.theme = "oled";
+    state.font = "serif";
+    state.size = 20;
+    settings();
+    save();
+  };
+}
 document
   .querySelectorAll("[data-close]")
   .forEach((b) => (b.onclick = () => $("#" + b.dataset.close).close()));
+["preferences", "contents", "support"].forEach((id) => {
+  const dlg = $("#" + id);
+  if (dlg) {
+    dlg.addEventListener("click", (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+  }
+});
 $("#search").oninput = list;
 $("#list-version").onchange = () => {
   list();
