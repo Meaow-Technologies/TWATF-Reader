@@ -889,7 +889,7 @@ def build(root=ROOT):
 
         # Ensure robots.txt is correct (overwrite)
         (out / "robots.txt").write_text(
-            "User-agent: *\nAllow: /\n\nSitemap: https://twatf.pages.dev/sitemap.xml\n",
+            "User-agent: *\nAllow: /\nDisallow: /data/\nDisallow: /assets/downloads/\n\nSitemap: https://twatf.pages.dev/sitemap.xml\n",
             encoding="utf-8",
         )
 

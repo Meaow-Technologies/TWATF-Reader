@@ -1,6 +1,19 @@
+/assets/*
+  X-Content-Type-Options: nosniff
+  Cross-Origin-Resource-Policy: same-origin
+
+/data/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: public, max-age=60, stale-while-revalidate=300
+
 /assets/downloads/*.epub
   Cache-Control: public, max-age=0, must-revalidate
-/data/*
-  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow, noarchive
 /build-manifest.json
   Cache-Control: no-cache
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

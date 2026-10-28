@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /data/
+Disallow: /assets/downloads/
 
 Sitemap: https://twatf.pages.dev/sitemap.xml

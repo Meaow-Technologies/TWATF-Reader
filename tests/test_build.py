@@ -109,7 +109,10 @@ class BuildTests(unittest.TestCase):
   self.assertEqual(set(surls),expected_urls)
   self.assertNotIn(f'{builder.SITE_URL}/chapters',surls)
   self.assertEqual(len(stree.findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}lastmod')),0)
-  self.assertIn('Sitemap: https://twatf.pages.dev/sitemap.xml',(dist/'robots.txt').read_text())
+  robots=(dist/'robots.txt').read_text()
+  self.assertIn('Sitemap: https://twatf.pages.dev/sitemap.xml',robots)
+  self.assertIn('Disallow: /data/',robots)
+  self.assertIn('Disallow: /assets/downloads/',robots)
   # (g) no generated page contains "{{"
   for p in pages:
    self.assertNotIn('{{',p.read_text(encoding='utf-8'),f'{p.name} contains leftover placeholder')
