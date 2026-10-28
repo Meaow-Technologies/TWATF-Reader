@@ -40,6 +40,7 @@ body > header > nav {
   max-width: 740px;
   border-top: 1px solid var(--line);
   padding-top: 28px;
+  scroll-margin-top: 120px;
 }
 #comments h2 {
   font:

@@ -343,6 +343,12 @@ function afterChapterLoaded(v, n, entry, idx) {
   save();
   updateResumeEditions();
   requestAnimationFrame(() => {
+    if (location.hash === "#comments") {
+      const section = document.getElementById("comments");
+      if (section && !section.hidden) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
     scrollTo(
       0,
       ratio * Math.max(0, document.documentElement.scrollHeight - innerHeight),
@@ -477,6 +483,19 @@ if (startEl) {
     startEl.onclick = goIndex;
   }
 }
+
+document.querySelectorAll(".comments-button").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const section = document.getElementById("comments");
+    if (!section || $("#reader").hidden) return;
+    event.preventDefault();
+    const nextHash = new URL(location.href);
+    nextHash.hash = "comments";
+    history.pushState(null, "", nextHash);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
 $("#resume-first")?.addEventListener("click", () => storePosition());
 $("#resume-revised")?.addEventListener("click", () => storePosition());
 document

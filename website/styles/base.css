@@ -220,3 +220,16 @@ nav #settings:hover {
 nav #settings svg {
   display: block;
 }
+
+.comments-button {
+  display: none;
+}
+
+body:has(#reader:not([hidden])) > header .comments-button,
+body:has(#chapter-index:not([hidden])) > header .comments-button {
+  display: inline-flex;
+}
+
+body:has(#home:not([hidden])) > header .comments-button {
+  display: none;
+}

@@ -305,7 +305,7 @@
     notice.style.cssText =
       "font-size:11px;margin:0 0 12px;border-left:2px solid var(--line);padding-left:8px;";
     notice.textContent =
-      "Friendly reminder: swearing is okay, but racial and ethnic slurs will be removed by moderators.";
+      "Friendly reminder: NO SPOILERS & swearing is okay, but racial and ethnic slurs will be removed by moderators.";
     thread.before(notice);
   });
   mountObserver.observe(document.body, { childList: true, subtree: true });
