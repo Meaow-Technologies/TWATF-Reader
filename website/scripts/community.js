@@ -72,7 +72,7 @@ function openDiscordServers() {
     const config = window.READER_CONFIG || {};
     const urls = {
       workshop: config.discordUrl,
-      meaowland: "https://discord.gg/VFuKR4tH6H",
+      meaowland: "https://discord.gg/a3cQ8atwQH",
       twatf: "https://discord.gg/HupWTFzvw8",
       wiki: "https://discord.gg/nKEE84vXzS",
     };

@@ -425,7 +425,9 @@ body.header-hidden > header {
   border-color: #47547a;
 }
 .discord-server-workshop .identity-art {
-  background: #263d5a;
+  background-color: #263d5a;
+  background-image: url("/assets/servers/background-stars.jpg");
+  background-position: center;
 }
 .discord-server-workshop .identity-icon {
   border-color: #192139;
