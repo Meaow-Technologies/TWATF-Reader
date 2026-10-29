@@ -96,6 +96,10 @@ export async function onRequest(context) {
   for (const [name, value] of responseHeaders(contentRequest)) {
     if (!headers.has(name)) headers.set(name, value);
   }
+  if (url.pathname.startsWith("/giscus/")) {
+    headers.set("Access-Control-Allow-Origin", "*");
+    headers.set("Cross-Origin-Resource-Policy", "cross-origin");
+  }
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,

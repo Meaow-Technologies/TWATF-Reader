@@ -57,7 +57,7 @@
     activeEdition = null,
     started = false;
   const GISCUS_THEME_BASE = "https://twatf.pages.dev/giscus";
-  const GISCUS_THEME_VERSION = "owners-v2";
+  const GISCUS_THEME_VERSION = "owners-v3";
   const theme = () =>
     ["light", "sepia"].includes(document.body.dataset.theme)
       ? `${GISCUS_THEME_BASE}/light.css?v=${GISCUS_THEME_VERSION}`

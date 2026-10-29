@@ -11,6 +11,15 @@ class BuildTests(unittest.TestCase):
    (self.root/'chapters'/v).mkdir(parents=True)
    for n in [1,2]:shutil.copy2(ROOT/'chapters'/v/f'{n:04}.xhtml',self.root/'chapters'/v/f'{n:04}.xhtml')
  def tearDown(self):self.temp.cleanup()
+ def test_giscus_headers_and_theme_version(self):
+  import re
+  headers=(ROOT/'website/_headers').read_text(encoding='utf-8')
+  self.assertRegex(headers,r'(?m)^/giscus/\*\n(?:  .*\n)*  Access-Control-Allow-Origin: \*$')
+  comments=(ROOT/'website/scripts/comments.js').read_text(encoding='utf-8')
+  version=re.search(r'GISCUS_THEME_VERSION\s*=\s*"([^"]+)"',comments).group(1)
+  for name in ['dark.css','light.css']:
+   theme=(ROOT/'website/giscus'/name).read_text(encoding='utf-8')
+   self.assertEqual(re.search(r'admin\.css\?v=([^"]+)',theme).group(1),version)
  def test_correction_propagates_to_site_and_matching_epub(self):
   builder.build(self.root)
   p=self.root/'chapters/first/0001.xhtml';p.write_text(p.read_text().replace('</body>','<p>Verified correction &amp; punctuation.</p></body>'))

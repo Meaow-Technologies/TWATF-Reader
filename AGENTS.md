@@ -278,9 +278,14 @@ to `Owner` only for:
 - `https://github.com/MrMeaow46`
 - `https://github.com/KleinDokja23`
 
+The theme link is `crossorigin="anonymous"`, so `/giscus/*` must send
+`Access-Control-Allow-Origin`, set in `functions/_middleware.js` and
+`website/_headers`. When changing any file in `website/giscus/`, bump the
+`owners-vN` version in `comments.js` and in both `@import` lines.
+
 Giscus markup and caching can change. If owner styling stops applying, inspect
 the actual Giscus DOM/classes and the deployed theme URL before changing the
-selector. `comments.js` includes a theme cache-buster (`owners-v2`) so deployed
+selector. `comments.js` includes a theme cache-buster (`owners-v3`) so deployed
 theme updates are fetched by the iframe.
 
 The browser cannot reliably read submitted Giscus comment bodies because the
@@ -426,4 +431,3 @@ The repository's test suite currently contains five build/regression tests.
 They validate correction propagation, EPUB consistency, invalid-source safety,
 missing chapters, whitespace handling, generated discovery metadata, canonical
 URLs, navigation links, robots rules, and asset hashing.
-

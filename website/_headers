@@ -9,6 +9,11 @@
 /assets/downloads/*.epub
   Cache-Control: public, max-age=0, must-revalidate
   X-Robots-Tag: noindex, nofollow, noarchive
+
+/giscus/*
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+
 /build-manifest.json
   Cache-Control: no-cache
 
