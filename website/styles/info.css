@@ -207,6 +207,40 @@ body.header-hidden > header {
 .discord-action:hover { border-color: #b89cf2; color: #b89cf2; }
 .donate-action  { color: #f08eb4; border-color: #f08eb460; }
 .donate-action:hover  { border-color: #f08eb4; color: #f08eb4; }
+.github-support {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  margin: 2px 0 20px;
+}
+.github-action {
+  color: #87cdd2;
+  border-color: #87cdd260;
+  box-shadow: 0 0 0 rgba(135, 205, 210, 0);
+}
+.github-action:hover {
+  border-color: #87cdd2;
+  color: #b7f4f5;
+  box-shadow: 0 0 18px #87cdd255;
+}
+.github-support p {
+  margin: 0;
+  color: #d7fbf6;
+  font:
+    600 12px/1.5 "DM Sans",
+    sans-serif;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-shadow:
+    0 0 6px #87cdd299,
+    0 0 16px #87cdd255;
+  animation: github-support-glow 2.8s ease-in-out infinite;
+}
+@keyframes github-support-glow {
+  0%, 100% { opacity: 0.78; }
+  50% { opacity: 1; }
+}
 
 .comments-divider {
   border: none;
