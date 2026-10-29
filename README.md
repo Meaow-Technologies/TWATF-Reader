@@ -75,3 +75,8 @@ If you enjoy the reader, consider supporting us on Patreon. It keeps the project
 ## 💡 Inspiration
 
 This reader is inspired by [LOTM-Reader](https://beyonder.pages.dev) and [GSGW-Reader](https://ireum.pages.dev). 
+
+## Maintainers
+
+- [TheLX23](https://github.com/KleinDokja23)
+- [Mr. Meaow46](https://github.com/MrMeaow46)
