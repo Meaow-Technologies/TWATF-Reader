@@ -5,6 +5,4 @@ __pycache__/
 .DS_Store
 .openai/
 .idea/
-deploy.txt
-DEPLOYMENT-GUIDE.md
-deployment_guide.md
+.env
