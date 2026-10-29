@@ -1,5 +1,6 @@
 const REPOSITORY = "Meaow-Technologies/TWATF-Reader";
 const MAX_DESCRIPTION_LENGTH = 4_000;
+const WEBHOOK_AVATAR_URL = "https://twatf.pages.dev/assets/images/jaehwan.png";
 
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -48,7 +49,8 @@ function commentEmbed(payload) {
   const discussionUrl = discussion.html_url || comment.html_url;
 
   return {
-    username: "TWATF Reader Comments",
+    username: "[TWATF] Chapter Discussion",
+    avatar_url: WEBHOOK_AVATAR_URL,
     embeds: [
       {
         author: {
