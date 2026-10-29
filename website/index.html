@@ -308,19 +308,30 @@
       </div>
     </dialog>
     <section id="reader" hidden>
+      <div class="reader-nav reader-nav-top" aria-label="Chapter navigation">
+        <button class="reader-prev">← Previous</button
+        ><button
+          class="reader-chapter-list"
+          aria-haspopup="dialog"
+          aria-controls="contents"
+        >
+          Chapters</button
+        ><button class="reader-next">Next →</button>
+      </div>
       <div class="reader-meta">
         <button id="back">← Home</button><span id="edition-label"></span><button id="bookmark">☆ Bookmark</button>
       </div>
       <article id="chapter" tabindex="-1"></article>
       <div class="reader-nav">
-        <button id="prev">← Previous</button
+        <button id="prev" class="reader-prev">← Previous</button
         ><button
           id="chapter-list"
+          class="reader-chapter-list"
           aria-haspopup="dialog"
           aria-controls="contents"
         >
           Chapters</button
-        ><button id="next">Next →</button>
+        ><button id="next" class="reader-next">Next →</button>
       </div>
       <p class="end-note" id="end-note"></p>
       <section id="comments" hidden aria-labelledby="comments-heading">
@@ -350,9 +361,12 @@
       </section>
     </section>
     <dialog id="contents" aria-labelledby="list-title">
-      <div class="dialog-head">
-        <h2 id="list-title">Chapters</h2>
-        <button data-close="contents" aria-label="Close chapters">✕</button>
+      <div class="dialog-head settings-head chapters-head">
+        <h2 id="list-title" class="settings-title">
+          <span id="list-title-icon" class="chapters-title-icon" aria-hidden="true">☷</span>
+          <span>Chapters</span>
+        </h2>
+        <button data-close="contents" class="btn-close" aria-label="Close chapters">✕</button>
       </div>
       <div class="popup-filters">
         <input

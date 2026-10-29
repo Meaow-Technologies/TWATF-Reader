@@ -213,6 +213,19 @@ article p:empty {
   padding-top: 24px;
   gap: 12px;
 }
+.reader-nav-top {
+  position: relative;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+  padding-top: 0;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.reader-nav-top .reader-chapter-list {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .reader-nav button,
 .reader-nav a {
   font: inherit;
@@ -237,3 +250,6 @@ article p:empty {
 .reader-nav button[disabled],
 .reader-nav a.disabled,
 .reader-nav a[disabled] {
+  opacity: 0.3;
+  cursor: default;
+}

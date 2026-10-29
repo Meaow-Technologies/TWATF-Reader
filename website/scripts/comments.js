@@ -57,10 +57,11 @@
     activeEdition = null,
     started = false;
   const GISCUS_THEME_BASE = "https://twatf.pages.dev/giscus";
+  const GISCUS_THEME_VERSION = "owners-v2";
   const theme = () =>
     ["light", "sepia"].includes(document.body.dataset.theme)
-      ? `${GISCUS_THEME_BASE}/light.css`
-      : `${GISCUS_THEME_BASE}/dark.css`;
+      ? `${GISCUS_THEME_BASE}/light.css?v=${GISCUS_THEME_VERSION}`
+      : `${GISCUS_THEME_BASE}/dark.css?v=${GISCUS_THEME_VERSION}`;
   const mount = () => document.getElementById("giscus-thread");
   function sync() {
     const frame = mount()?.querySelector("iframe.giscus-frame");

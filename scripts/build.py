@@ -468,10 +468,15 @@ def generate_chapter_pages(out, edition, rows, base_index_html):
             next_n = rows[i + 1]["number"]
             next_html = f'<a id="next" rel="next" href="/{edition}/chapter-{next_n}">Next →</a>'
 
-        single_reader_nav = f'<div class="reader-nav">\n        {prev_html}\n        {chapters_html}\n        {next_html}\n      </div>'
+        top_prev_html = prev_html.replace(' id="prev"', ' class="reader-prev"')
+        top_next_html = next_html.replace(' id="next"', ' class="reader-next"')
+        top_chapters_html = chapters_html.replace(
+            ' id="chapter-list"', ' class="reader-chapter-list"'
+        )
+        top_reader_nav = f'<div class="reader-nav reader-nav-top" aria-label="Chapter navigation">\n        {top_prev_html}\n        {top_chapters_html}\n        {top_next_html}\n      </div>'
         markup = re.sub(
             r'<div\s[^>]*class=["\'][^"\']*reader-nav[^"\']*["\'][^>]*>.*?</div>',
-            single_reader_nav,
+            top_reader_nav,
             markup, count=1, flags=re.DOTALL,
         )
 

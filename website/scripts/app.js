@@ -297,6 +297,15 @@ function openList(bookmarks = false) {
   storePosition();
   onlyBookmarks = bookmarks;
   $("#list-title").textContent = bookmarks ? "Your bookmarks" : "Chapters";
+  const listTitleIcon = $("#list-title-icon");
+  if (listTitleIcon) {
+    listTitleIcon.textContent = bookmarks ? "★" : "☷";
+    listTitleIcon.setAttribute(
+      "aria-label",
+      bookmarks ? "Bookmarks" : "Chapter list",
+    );
+  }
+  $("#contents").classList.toggle("bookmarks-dialog", bookmarks);
   $("#search").value = "";
   $("#list-version").value = version;
   list();
@@ -395,9 +404,9 @@ async function route() {
     $("#chapter-index").hidden = true;
     $("#reader").hidden = false;
     const idx = catalog[v].indexOf(entry);
-    const prevBtn = $("#prev");
-    const nextBtn = $("#next");
-    if (prevBtn) {
+    const prevButtons = document.querySelectorAll(".reader-prev");
+    const nextButtons = document.querySelectorAll(".reader-next");
+    prevButtons.forEach((prevBtn) => {
       if (idx === 0) {
         prevBtn.setAttribute("disabled", "");
         prevBtn.removeAttribute("href");
@@ -409,8 +418,8 @@ async function route() {
         prevBtn.setAttribute("href", `/${v}/chapter-${catalog[v][idx - 1].number}`);
         prevBtn.onclick = (e) => { e.preventDefault(); navigate(-1); };
       }
-    }
-    if (nextBtn) {
+    });
+    nextButtons.forEach((nextBtn) => {
       if (idx === catalog[v].length - 1) {
         nextBtn.setAttribute("disabled", "");
         nextBtn.removeAttribute("href");
@@ -422,7 +431,7 @@ async function route() {
         nextBtn.setAttribute("href", `/${v}/chapter-${catalog[v][idx + 1].number}`);
         nextBtn.onclick = (e) => { e.preventDefault(); navigate(1); };
       }
-    }
+    });
     mark();
     restoring = true;
 
@@ -501,7 +510,9 @@ $("#resume-revised")?.addEventListener("click", () => storePosition());
 document
   .querySelectorAll("[data-version]")
   .forEach((b) => (b.onclick = () => choose(b.dataset.version)));
-$("#chapter-list").onclick = () => openList();
+document
+  .querySelectorAll(".reader-chapter-list")
+  .forEach((button) => (button.onclick = () => openList()));
 $("#bookmarks").onclick = () => openList(true);
 $("#back").onclick = () => {
   storePosition();
