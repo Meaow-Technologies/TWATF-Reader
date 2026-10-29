@@ -1,12 +1,10 @@
 /* Reword the "Member" badge to "Owner" for the site owners only. */
 
-.gsc-comment-author:has(a[href*="github.com/MrMeaow46" i]) span.capitalize,
-.gsc-comment-author:has(a[href*="github.com/KleinDokja23" i]) span.capitalize {
+.gsc-comment-author:has(a.gsc-comment-author-avatar:is([href="https://github.com/MrMeaow46" i], [href="https://github.com/KleinDokja23" i])) span.capitalize {
   font-size: 0 !important;
 }
 
-.gsc-comment-author:has(a[href*="github.com/MrMeaow46" i]) span.capitalize::after,
-.gsc-comment-author:has(a[href*="github.com/KleinDokja23" i]) span.capitalize::after {
+.gsc-comment-author:has(a.gsc-comment-author-avatar:is([href="https://github.com/MrMeaow46" i], [href="https://github.com/KleinDokja23" i])) span.capitalize::after {
   content: "Owner";
   font-size: 12px;
 }
