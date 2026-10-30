@@ -121,6 +121,7 @@ body[data-theme="nord"] {
   --muted: #b8c4d7;
   --line: #515e73;
   --accent: #88c0d0;
+  color-scheme: dark;
 }
 body[data-theme="dracula"] {
   --bg: #282a36;
@@ -129,6 +130,7 @@ body[data-theme="dracula"] {
   --muted: #b5b5cd;
   --line: #56586c;
   --accent: #bd93f9;
+  color-scheme: dark;
 }
 body[data-theme="solarized"] {
   --bg: #002b36;
@@ -137,6 +139,7 @@ body[data-theme="solarized"] {
   --muted: #93a1a1;
   --line: #315561;
   --accent: #b6ca72;
+  color-scheme: dark;
 }
 body[data-theme="mocha"] {
   --bg: #1e1e2e;
@@ -145,6 +148,7 @@ body[data-theme="mocha"] {
   --muted: #bac2de;
   --line: #585b70;
   --accent: #cba6f7;
+  color-scheme: dark;
 }
 body[data-theme="oled"] {
   --bg: #000;
@@ -153,6 +157,7 @@ body[data-theme="oled"] {
   --muted: #aaa;
   --line: #383838;
   --accent: #d2e7af;
+  color-scheme: dark;
 }
 body[data-theme] .primary {
   color: var(--bg);

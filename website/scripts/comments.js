@@ -18,7 +18,9 @@
   const status = () => $("#comments-status");
 
   function themeUrl() {
-    return ["light", "sepia"].includes(document.body.dataset.theme)
+    const theme = document.body.dataset.theme || "";
+    const isLight = ["light", "sepia"].includes(theme) || theme.endsWith("-light");
+    return isLight
       ? `${GISCUS_THEME_BASE}/light.css?v=${GISCUS_THEME_VERSION}`
       : `${GISCUS_THEME_BASE}/dark.css?v=${GISCUS_THEME_VERSION}`;
   }

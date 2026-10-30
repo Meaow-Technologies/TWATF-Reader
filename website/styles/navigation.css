@@ -301,7 +301,7 @@ body > header > nav {
   border: none;
   border-radius: 8px;
   background: var(--accent);
-  color: var(--bg);
+  color: var(--on-accent, var(--bg));
   padding: 6px 14px;
   cursor: pointer;
   font-family: inherit;
@@ -388,7 +388,12 @@ body > header > nav {
 }
 .native-badge-legacy {
   background: rgba(245, 158, 11, 0.15);
-  color: #d97706;
+  color: #f59e0b;
+}
+body[data-theme="light"] .native-badge-legacy,
+body[data-theme="sepia"] .native-badge-legacy,
+body[data-theme$="-light"] .native-badge-legacy {
+  color: #b45309;
 }
 .native-comment-time {
   color: var(--muted);
