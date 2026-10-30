@@ -4,7 +4,7 @@ import {
   errorResponse,
   json,
   allowRequest,
-} from "../../../../../_lib/comments.js";
+} from "../../../../_lib/comments.js";
 
 export async function onRequestPost({ request, env, params }) {
   const user = await currentUser(request, env);
