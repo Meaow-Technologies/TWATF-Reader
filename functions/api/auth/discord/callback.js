@@ -33,10 +33,12 @@ export async function onRequestGet({ request, env }) {
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   const savedState = cookieValue(request, "twatf_oauth_state");
-  const payload = state && savedState && state === savedState
+  const payload = state
     ? await verifyState(state, env.SESSION_SECRET)
     : null;
-  if (!payload || !code) return errorResponse("Invalid or expired authentication request.", 400);
+  if (!payload || (savedState && state !== savedState) || !code) {
+    return errorResponse("Invalid or expired authentication request.", 400);
+  }
 
   try {
     const redirectUri = `${url.origin}/api/auth/discord/callback`;
@@ -53,7 +55,7 @@ export async function onRequestGet({ request, env }) {
       "Set-Cookie": [
         sessionCookie,
         cookieHeader("twatf_oauth_state", "", { maxAge: 0, secure }),
-      ].join(", "),
+      ],
     });
   } catch (error) {
     return errorResponse(error instanceof Error ? error.message : "Discord login failed.", 502);

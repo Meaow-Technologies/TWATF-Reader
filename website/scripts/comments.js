@@ -78,7 +78,7 @@
 
   async function request(path, options = {}) {
     const response = await fetch(path, {
-      credentials: "same-origin",
+      credentials: "include",
       headers: options.body ? { "Content-Type": "application/json" } : undefined,
       ...options,
     });

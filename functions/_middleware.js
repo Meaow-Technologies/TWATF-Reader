@@ -93,6 +93,12 @@ export async function onRequest(context) {
 
   const response = await next();
   const headers = new Headers(response.headers);
+  if (typeof response.headers.getSetCookie === "function") {
+    headers.delete("Set-Cookie");
+    for (const cookie of response.headers.getSetCookie()) {
+      headers.append("Set-Cookie", cookie);
+    }
+  }
   for (const [name, value] of responseHeaders(contentRequest)) {
     if (!headers.has(name)) headers.set(name, value);
   }

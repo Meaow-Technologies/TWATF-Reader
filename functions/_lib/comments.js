@@ -37,7 +37,27 @@ function json(body, status = 200, headers = {}) {
 }
 
 function redirect(url, headers = {}) {
-  return new Response(null, { status: 302, headers: { Location: url, ...headers } });
+  const h = new Headers();
+  h.set("Location", url);
+  if (headers instanceof Headers) {
+    if (typeof headers.getSetCookie === "function") {
+      for (const cookie of headers.getSetCookie()) {
+        h.append("Set-Cookie", cookie);
+      }
+    }
+    for (const [k, v] of headers.entries()) {
+      if (k.toLowerCase() !== "set-cookie") h.append(k, v);
+    }
+  } else if (headers && typeof headers === "object") {
+    for (const [k, v] of Object.entries(headers)) {
+      if (Array.isArray(v)) {
+        for (const item of v) h.append(k, item);
+      } else {
+        h.append(k, v);
+      }
+    }
+  }
+  return new Response(null, { status: 302, headers: h });
 }
 
 function cookieValue(request, name) {
