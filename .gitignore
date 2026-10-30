@@ -8,4 +8,5 @@ __pycache__/
 .env
 .wrangler/
 scripts/out/
+DISCORD-COMMENTS-GUIDE.md
 website/assets/unused
