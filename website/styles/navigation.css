@@ -55,6 +55,170 @@ body > header > nav {
   width: 100%;
   border: 0;
 }
+.legacy-comments {
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.legacy-comments summary {
+  cursor: pointer;
+  color: var(--muted);
+  font: 600 0.82rem var(--font-ui, system-ui, sans-serif);
+}
+.legacy-comments[open] summary {
+  margin-bottom: 12px;
+}
+#native-comments {
+  margin-top: 20px;
+}
+.native-comments-card {
+  display: grid;
+  gap: 16px;
+}
+.native-comments-toolbar,
+.native-comment-actions,
+.native-reaction-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.native-comments-toolbar {
+  justify-content: space-between;
+}
+.native-comments-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.native-comments-user img,
+.native-comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: color-mix(in srgb, var(--line) 50%, transparent);
+}
+.native-comments-login,
+.native-comment-submit,
+.native-comment-action,
+.native-reaction,
+.native-reply-toggle {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 7px 12px;
+  cursor: pointer;
+  font: inherit;
+}
+.native-comments-login,
+.native-comment-submit {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.native-comment-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.native-comment-compose {
+  display: grid;
+  gap: 8px;
+}
+.native-comment-compose textarea,
+.native-comment-edit {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 84px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+.native-comment-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.native-comment {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+}
+.native-comment-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.native-comment-name {
+  font-weight: 700;
+}
+.native-comment-time {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.native-comment-legacy {
+  color: #b7791f;
+  font-size: 0.72rem;
+}
+.native-comment-body {
+  margin: 9px 0;
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+}
+.native-comment-body p {
+  margin: 0 0 0.65em;
+}
+.native-comment-body p:last-child {
+  margin-bottom: 0;
+}
+.native-reaction {
+  padding: 4px 9px;
+  font-size: 0.8rem;
+}
+.native-reaction.mine {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.native-comment-action,
+.native-reply-toggle {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+  padding: 4px 7px;
+  font-size: 0.8rem;
+}
+.native-comment-action:hover,
+.native-reply-toggle:hover {
+  color: var(--accent);
+}
+.native-replies {
+  display: grid;
+  gap: 9px;
+  margin: 12px 0 0 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  padding-left: 12px;
+}
+.native-empty,
+.native-error {
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  color: var(--muted);
+  text-align: center;
+}
+.native-error {
+  color: #b44;
+}
 
 /* Static chapter navigation links. */
 .chapter-links {
