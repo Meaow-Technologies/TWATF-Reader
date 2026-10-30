@@ -6,3 +6,4 @@ __pycache__/
 .openai/
 .idea/
 .env
+website/assets/unused
