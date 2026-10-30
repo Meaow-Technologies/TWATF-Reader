@@ -247,9 +247,9 @@ Use the existing info-page developer-card visual language for new community
 cards. Keep external links validated as HTTPS and opened with
 `noopener noreferrer`.
 
-`website/scripts/profiles.js` is currently only a marker/comment file; profile
-markup is primarily in `website/info.html` and profile styling is in
-`website/styles/info.css`.
+Profile markup is primarily in `website/info.html`, profile behavior is
+handled alongside community behavior in `website/scripts/community.js`, and
+profile styling is in `website/styles/info.css`.
 
 ## Giscus comments
 

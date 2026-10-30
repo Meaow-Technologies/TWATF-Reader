@@ -1,4 +1,233 @@
 
+/* ── Info page layout ── */
+.info-page {
+  padding: 60px 7%;
+}
+.info-back {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 27px;
+  z-index: 2;
+}
+.info-shell {
+  max-width: 1100px;
+  margin: auto;
+  padding: 50px 55px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 25px 80px #0005;
+}
+.info-heading {
+  text-align: center;
+  margin-bottom: 44px;
+}
+.info-heading h1 {
+  font-size: 54px;
+  background: linear-gradient(110deg, #ffb46d, #ff637d, #cf67d9);
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+.info-heading > p {
+  font:
+    italic 17px/1.7 Georgia,
+    serif;
+  color: var(--muted);
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 35px;
+}
+.info-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 25px;
+  margin-bottom: 24px;
+  background: color-mix(in srgb, var(--bg) 65%, transparent);
+}
+.info-card h2 {
+  font:
+    600 22px Georgia,
+    serif;
+  margin: 0 0 20px;
+}
+.info-card h2 > span {
+  color: #eaa077;
+  margin-right: 9px;
+}
+.info-card p {
+  font:
+    16px/1.8 Georgia,
+    serif;
+  color: var(--muted);
+}
+.info-card p:last-child {
+  margin-bottom: 0;
+}
+.identity-card {
+  overflow: hidden;
+  border: 1px solid #eec498;
+  border-radius: 16px;
+  background: #f1cd9f;
+  color: #24251f;
+  margin-bottom: 24px;
+}
+.identity-art {
+  height: 160px;
+  background: url("/assets/images/background.webp") center 43% / cover;
+}
+.identity-copy {
+  padding: 0 25px 24px;
+}
+.identity-icon {
+  display: grid;
+  place-items: center;
+  width: 65px;
+  height: 65px;
+  margin-top: -30px;
+  position: relative;
+  border: 4px solid #f1cd9f;
+  background: #282b23;
+  border-radius: 50%;
+  font: 30px Georgia;
+  color: #f1cd9f;
+}
+.identity-copy h2 {
+  font:
+    700 27px/1.2 Georgia,
+    serif;
+  margin: 14px 0;
+}
+.info-tag {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.identity-copy p {
+  font:
+    16px/1.7 Georgia,
+    serif;
+}
+.edition-credit {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.edition-credit > span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.info-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.info-links a {
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  padding: 15px 6px;
+  color: var(--accent);
+  font-size: 12px;
+}
+.info-foot {
+  text-align: center;
+  color: var(--muted);
+  font:
+    12px Georgia,
+    serif;
+  margin: 40px 0 0;
+}
+
+/* ── Community links and notices ── */
+.community-links {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 4px 0 20px;
+}
+.community-links .community-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 16px 5px;
+  font-size: 11px;
+  color: var(--accent);
+}
+.community-link[data-community="githubUrl"] {
+  color: #87cdd2;
+}
+.community-link[data-community="contributionUrl"],
+.contribution-button {
+  color: #e0bb85;
+}
+.community-link[data-community="donationUrl"] {
+  color: #f08eb4;
+}
+.community-link[data-community="discordUrl"] {
+  color: #b89cf2;
+}
+.community-link:hover {
+  background: var(--panel);
+}
+#community-notice {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 8px 35px #0007;
+  z-index: 100;
+  font-size: 13px;
+  text-align: center;
+}
+@media (max-width: 720px) {
+  .info-page {
+    padding: 75px 4% 25px;
+  }
+  .info-shell {
+    padding: 30px 20px;
+  }
+  .info-card {
+    padding: 22px;
+  }
+  .info-heading h1 {
+    font-size: 38px;
+  }
+  .info-heading > p {
+    font-size: 15px;
+  }
+  .info-back {
+    position: absolute;
+  }
+}
+@media (max-width: 420px) {
+  .community-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Compact developer cards, styled to match the GSGW reference layout. */
 .info-grid {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -246,143 +475,6 @@ body.header-hidden > header {
   border: none;
   border-top: 1px solid var(--line);
   margin: 0 0 22px;
-}
-
-/* ── Discord server directory ── */
-.discord-servers-dialog {
-  width: min(760px, 94vw);
-  max-height: min(88dvh, 820px);
-  padding: 0;
-  overflow: hidden;
-}
-.discord-servers-dialog[open] {
-  animation: settings-pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.discord-servers-dialog .dialog-head {
-  margin: 0;
-  padding: 22px 26px 18px;
-  background: linear-gradient(110deg, #5865f2, #b85cf6, #f08eb4);
-  color: #fff;
-}
-.discord-servers-dialog .dialog-head h2 {
-  margin: 0;
-  color: #fff;
-  font:
-    600 27px "Playfair Display",
-    Georgia,
-    serif;
-}
-.discord-servers-dialog .dialog-head .btn-close {
-  color: #fff;
-  border-color: #ffffff66;
-}
-.discord-servers-body {
-  padding: 24px 26px 28px;
-  overflow-y: auto;
-  background: var(--panel);
-}
-.discord-server-group + .discord-server-group {
-  margin-top: 28px;
-}
-.discord-server-group h3 {
-  margin: 0 0 12px;
-  color: var(--accent);
-  font:
-    600 11px "DM Sans",
-    sans-serif;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.discord-server-list {
-  display: grid;
-  gap: 12px;
-}
-.discord-server-card {
-  position: relative;
-  display: block;
-  min-height: 142px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  color: var(--text);
-  background: color-mix(in srgb, var(--bg) 72%, var(--panel));
-  overflow: hidden;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s;
-}
-.discord-server-card:hover {
-  border-color: var(--accent);
-  background: var(--panel);
-  color: var(--text);
-  transform: translateY(-1px);
-}
-.discord-server-card.is-unavailable {
-  cursor: default;
-  opacity: 0.82;
-}
-.discord-server-card.is-unavailable:hover {
-  border-color: var(--line);
-  background: color-mix(in srgb, var(--bg) 72%, var(--panel));
-  transform: none;
-}
-.discord-server-art {
-  height: 72px;
-  border-radius: 11px 11px 0 0;
-  background-position: center;
-  background-size: cover;
-  background-color: #263d5a;
-}
-.discord-server-card-workshop .discord-server-art {
-  background-image: url("/assets/servers/workshop.png");
-}
-.discord-server-card-twatf .discord-server-art {
-  background-image: url("/assets/servers/twatf-banner.png");
-}
-.discord-server-card-wiki .discord-server-art {
-  background-color: #a88448;
-}
-.discord-server-icon {
-  position: absolute;
-  top: 42px;
-  left: 16px;
-  width: 58px;
-  height: 58px;
-  padding: 3px;
-  border: 3px solid var(--panel);
-  border-radius: 50%;
-  background: var(--panel);
-  overflow: hidden;
-}
-.discord-server-icon img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.discord-server-copy {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 5px;
-  padding: 34px 46px 14px 88px;
-}
-.discord-server-copy strong {
-  overflow: hidden;
-  color: var(--text);
-  font-size: 15px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.discord-server-copy small {
-  color: var(--muted);
-  font-size: 11px;
-}
-.discord-server-arrow {
-  position: absolute;
-  right: 16px;
-  bottom: 17px;
-  color: var(--accent);
-  font-size: 12px;
-  white-space: nowrap;
 }
 
 /* The Discord directory intentionally reuses the info page profile-card layout. */
