@@ -157,6 +157,72 @@ body[data-theme="oled"] {
 body[data-theme] .primary {
   color: var(--bg);
 }
+
+/* Material You-inspired tonal palettes; fixed colors, independent of wallpaper. */
+body[data-theme="material-lavender-light"] {
+  --bg: #fffbfe;
+  --panel: #f3edf7;
+  --text: #1d1b20;
+  --muted: #49454f;
+  --line: #cac4d0;
+  --accent: #6750a4;
+  --on-accent: #ffffff;
+  color-scheme: light;
+}
+body[data-theme="material-lavender-dark"] {
+  --bg: #141218;
+  --panel: #211f26;
+  --text: #e6e0e9;
+  --muted: #cac4d0;
+  --line: #49454f;
+  --accent: #d0bcff;
+  --on-accent: #381e72;
+  color-scheme: dark;
+}
+body[data-theme="material-sage-light"] {
+  --bg: #f7fbef;
+  --panel: #eaf0e3;
+  --text: #191d17;
+  --muted: #43483e;
+  --line: #c3c8bc;
+  --accent: #466730;
+  --on-accent: #ffffff;
+  color-scheme: light;
+}
+body[data-theme="material-sage-dark"] {
+  --bg: #10150e;
+  --panel: #1c211a;
+  --text: #e0e4d8;
+  --muted: #c3c8bc;
+  --line: #43483e;
+  --accent: #acd18e;
+  --on-accent: #183807;
+  color-scheme: dark;
+}
+body[data-theme="material-blue-light"] {
+  --bg: #f9f9ff;
+  --panel: #ebedf8;
+  --text: #191c24;
+  --muted: #44474f;
+  --line: #c4c6d0;
+  --accent: #415f91;
+  --on-accent: #ffffff;
+  color-scheme: light;
+}
+body[data-theme="material-blue-dark"] {
+  --bg: #10131b;
+  --panel: #1c1f28;
+  --text: #e1e2ec;
+  --muted: #c4c6d0;
+  --line: #44474f;
+  --accent: #aac7ff;
+  --on-accent: #0a305f;
+  color-scheme: dark;
+}
+body[data-theme^="material-"] .primary {
+  color: var(--on-accent);
+}
+
 .font-sample {
   font: var(--size)/1.7 var(--font);
   border-top: 1px solid var(--line);
