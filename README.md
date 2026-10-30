@@ -58,7 +58,7 @@ Both EPUBs are built from the same XHTML sources as the website — every correc
 | | |
 |---|---|
 | 🌐 **Reader** | [twatf.pages.dev](https://twatf.pages.dev) |
-| 💬 **Discord** | [discord.gg/mRKHnmQnYJ](https://discord.gg/mRKHnmQnYJ) |
+| 💬 **Discord** | [discord.gg/mRKHnmQnYJ](https://discord.gg/mRKHnmQnYJ) and [discord.gg/a3cQ8atwQH](https://discord.gg/a3cQ8atwQH)|
 | 🐙 **GitHub** | [Meaow-Technologies/TWATF-Reader](https://github.com/Meaow-Technologies/TWATF-Reader) |
 | ❤️ **Support** | [patreon.com/MrMeaow46](https://patreon.com/MrMeaow46) |
 | 📖 **Novel (MUNPIA)** | [The World After the Fall](https://www.munpia.com/novel/detail/303365) |
