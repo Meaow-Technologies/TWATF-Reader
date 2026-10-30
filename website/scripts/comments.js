@@ -82,8 +82,15 @@
       headers: options.body ? { "Content-Type": "application/json" } : undefined,
       ...options,
     });
-    const text = await response.text();
-    const data = text ? JSON.parse(text) : {};
+    const contentType = response.headers.get("content-type") || "";
+    let data = {};
+    if (contentType.includes("application/json")) {
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+    }
     if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
     return data;
   }
