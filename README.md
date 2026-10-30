@@ -30,7 +30,7 @@ There are two editions:
 - **Reader Settings** — Adjustable font family, text size, and a full background customizer (image, URL, solid colour, blur, brightness, zoom, positioning).
 - **EPUB Downloads** — Download either edition as a complete EPUB 3 file, regenerated fresh from the same chapter sources as the website.
 - **Bookmarks & Progress** — Browser-local per edition; no account or sync required.
-- **Chapter Comments** — Per-chapter discussions powered by [Giscus](https://giscus.app) (GitHub Discussions).
+- **Chapter Comments** — Discord-authenticated per-chapter comments with Markdown, replies, reactions, moderation, and legacy [Giscus](https://giscus.app) discussions.
 - **Privacy First** — No trackers, no ads. All settings and progress stay in your browser.
 
 ---
