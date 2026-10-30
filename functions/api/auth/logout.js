@@ -1,4 +1,4 @@
-import { cookieHeader, cookieValue, currentUser, errorResponse, redirect, safeReturnTo } from "../../../_lib/comments.js";
+import { cookieHeader, cookieValue, currentUser, errorResponse, redirect, safeReturnTo } from "../../_lib/comments.js";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);

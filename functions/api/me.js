@@ -1,4 +1,4 @@
-import { currentUser, errorResponse, json } from "../../_lib/comments.js";
+import { currentUser, errorResponse, json } from "../_lib/comments.js";
 
 export async function onRequestGet({ request, env }) {
   try {

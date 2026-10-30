@@ -7,7 +7,7 @@ import {
   safeReturnTo,
   upsertDiscordUser,
   verifyState,
-} from "../../../../_lib/comments.js";
+} from "../../../_lib/comments.js";
 
 async function exchangeCode(env, code, redirectUri) {
   const response = await fetch("https://discord.com/api/oauth2/token", {

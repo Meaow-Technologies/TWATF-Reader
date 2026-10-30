@@ -6,7 +6,7 @@ import {
   safeReturnTo,
   signedState,
   randomToken,
-} from "../../../_lib/comments.js";
+} from "../../_lib/comments.js";
 
 export async function onRequestGet({ request, env }) {
   if (!env.DISCORD_CLIENT_ID || !env.SESSION_SECRET) {
