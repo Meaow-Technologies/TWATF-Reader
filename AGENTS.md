@@ -14,11 +14,13 @@ Fall* by SingNShong. It publishes two editions:
 The public site is `https://twatf.pages.dev`. The project is designed for
 Cloudflare Pages Git integration: a Python build generates the static site and
 EPUB files, Cloudflare deploys `dist/`, and Cloudflare Pages Functions under
-`functions/` provide the small amount of server-side behavior.
+`functions/` provide server-side behavior including Discord OAuth authentication,
+a native comment and reaction system backed by Cloudflare D1, and legacy webhook
+relays.
 
-The project has no application database, user accounts, server-rendered
-templates, or npm runtime dependencies. Reading progress, bookmarks, theme,
-font, and text size are stored in each visitor's browser.
+The reader reading progress, bookmarks, theme, font, and text size are stored
+in each visitor's browser. Chapter comments, replies, and reactions use Discord
+OAuth authentication and persist in Cloudflare D1.
 
 ## Source of truth and generated output
 
@@ -31,10 +33,13 @@ Edit source files only. Do not manually edit generated files in `dist/`.
 | `chapters/revised/` | Revised Edition source XHTML chapters. |
 | `scripts/build.py` | Validates chapter XHTML and generates `dist/`, chapter JSON, chapter pages, metadata, sitemap, and EPUBs. |
 | `scripts/preview.py` | Local static preview server for `dist/` on port 8765. It does not execute Pages Functions. |
-| `functions/` | Cloudflare Pages Functions. These run only in a deployed Pages Functions environment, not in the local Python preview. |
+| `scripts/migrate_giscus.mjs` | Migrates legacy GitHub Discussions (Giscus) to Cloudflare D1 SQL. |
+| `functions/` | Cloudflare Pages Functions: Discord OAuth, comments API, chapter reactions, middleware, and webhooks. |
+| `functions/schema.sql` | D1 database schema for users, sessions, comments, and chapter reactions. |
 | `tests/test_build.py` | Python regression tests for build propagation, validation, generated pages, metadata, and EPUB consistency. |
 | `dist/` | Generated deployment artifact. It is recreated by the build and should not be hand-edited. |
 | `.github/workflows/build.yml` | CI-only test/build workflow. Cloudflare Git integration performs production deployment. |
+| `.github/workflows/migrate-comments.yml` | Manual GitHub Actions workflow to export Giscus discussions and apply them to D1. |
 
 If a generated page does not reflect an HTML change, inspect
 `generate_chapter_pages()` in `scripts/build.py`: chapter pages are generated
@@ -121,7 +126,11 @@ pages. Shared reader markup includes:
 - `.reader-prev`, `.reader-chapter-list`, `.reader-next`: duplicated top
   navigation controls.
 - `#contents`: Chapters/Bookmarks dialog.
-- `#comments`: Giscus chapter discussion section.
+- `#comments`: Chapter discussion section containing:
+  - `.comments-rules-notice`: Community spoiler and etiquette notice.
+  - `#chapter-reactions`: Centered emoji reaction bar for the chapter.
+  - `#native-comments`: Discord-authenticated comments list and reply forms.
+  - `#legacy-comments`: Collapsible archive viewer for legacy GitHub Discussions.
 - `#preferences`: Settings dialog.
 
 The generated chapter page contains a top navigation row before the metadata
@@ -251,7 +260,77 @@ Profile markup is primarily in `website/info.html`, profile behavior is
 handled alongside community behavior in `website/scripts/community.js`, and
 profile styling is in `website/styles/info.css`.
 
-## Giscus comments
+## Native comments and Discord authentication
+
+The reader features a native comment and reaction system powered by Cloudflare
+Pages Functions and Cloudflare D1, styled compactly after the GSGW-Reader UI.
+
+### Architecture and endpoints
+
+- **Authentication**: Discord OAuth2 flow.
+  - `GET /api/auth/discord`: Initiates Discord OAuth authorization, generating
+    a cryptographically random state signed with HMAC-SHA256, stored in a
+    temporary `twatf_oauth_state` cookie (`HttpOnly; Secure; SameSite=Lax; Max-Age=600`).
+  - `GET /api/auth/discord/callback`: Verifies state, exchanges the authorization
+    code for Discord tokens, retrieves user info (`/users/@me`), upserts the
+    user into D1 `users`, generates a signed 30-day session token, saves it in
+    D1 `sessions`, sets the `twatf_session` cookie (`HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`),
+    and redirects the user back to the chapter.
+  - `POST /api/auth/logout`: Clears the session from D1 and deletes the
+    `twatf_session` cookie.
+  - `GET /api/me`: Returns current user session state (`{ authenticated: true, user: {...} }`
+    or `{ authenticated: false }`).
+- **Comments and reactions API**:
+  - `GET /api/comments?chapterId=<id>`: Retrieves comments and nested reply
+    trees for the chapter with user avatars, roles, and reaction counts.
+  - `POST /api/comments`: Submits a top-level comment or reply (requires
+    authenticated session).
+  - `POST /api/comments/:id/reactions/:emoji`: Toggles an emoji reaction on a
+    comment.
+  - `GET /api/chapter-reactions?chapterId=<id>`: Fetches aggregated emoji
+    reaction counts and the current user's reaction for the chapter.
+  - `POST /api/chapter-reactions`: Toggles the chapter-level emoji reaction.
+
+### Database schema (`functions/schema.sql`)
+
+Bound to Cloudflare Pages as `COMMENTS_DB` (Cloudflare D1 SQLite database):
+
+- `users`: Discord user ID, username, discriminator, global name, avatar hash,
+  and role (`user` or `admin`).
+- `sessions`: Session ID, user ID, expiration timestamp, and client metadata.
+- `comments`: Chapter ID, parent comment ID (for nested replies), user ID,
+  comment body, edit timestamps, and soft-delete flag.
+- `comment_reactions`: Comment ID, user ID, emoji, and timestamp.
+- `chapter_reactions`: Chapter ID, user ID, emoji, and timestamp.
+
+### Frontend styling and theme synchronization
+
+The frontend UI is implemented in `website/scripts/comments.js` and styled in
+`website/styles/navigation.css`:
+
+- Compact 14px cards with avatar, author name, timestamp, reply button, and
+  reaction counts.
+- Smile-plus emoji reaction button with popover picker.
+- Centered chapter reaction bar above the comments list.
+- Notice banner informing users of spoiler etiquette and Discord rules.
+- Real-time theme synchronization: a `MutationObserver` watches `data-theme`
+  and `data-accent` on `document.documentElement` to adapt comment container
+  surfaces, borders, and text colors to all reader themes (Light, Sepia, OLED,
+  Nord, Dracula, Solarized, Mocha, Material You).
+
+### Giscus to D1 migration
+
+Legacy GitHub Discussions can be extracted into D1:
+
+- `scripts/migrate_giscus.mjs`: Queries the GitHub GraphQL API for chapter
+  discussions in `Meaow-Technologies/TWATF-Reader`, maps comments and authors
+  into D1 schema, and generates SQL statements.
+- `.github/workflows/migrate-comments.yml`: GitHub Actions workflow that runs
+  the migration script and executes the SQL against D1 using `wrangler d1 execute`.
+  Uses GitHub repository secret `GH_DISCUSSIONS_TOKEN` (custom secrets cannot
+  start with `GITHUB_`).
+
+## Legacy Giscus comments
 
 Comments are provided by Giscus in a cross-origin iframe. Configuration is in
 `website/scripts/config.js`, including repository/category IDs for First and
@@ -303,11 +382,15 @@ webhooks. It:
 - Posts a Discord embed containing the commenter's avatar, linked username,
   discussion title/link, comment body, timestamp, and Jaehwan webhook avatar.
 
-Required Cloudflare Pages production environment variables:
+Required Cloudflare Pages production environment variables and bindings:
 
 ```text
-GITHUB_WEBHOOK_SECRET
-DISCORD_GISCUS_WEBHOOK_URL
+COMMENTS_DB                (D1 database binding to 'twatf-comments')
+DISCORD_CLIENT_ID          (Discord OAuth Application Client ID)
+DISCORD_CLIENT_SECRET      (Discord OAuth Application Client Secret)
+SESSION_SECRET             (32+ character secret for HMAC signing session tokens)
+GITHUB_WEBHOOK_SECRET      (Secret for verifying GitHub discussion webhooks)
+DISCORD_GISCUS_WEBHOOK_URL (Discord webhook URL for comment alerts)
 ```
 
 The GitHub repository webhook should target:
@@ -424,6 +507,24 @@ means the request did not reach Cloudflare and cannot test edge middleware.
 6. **Static security expectations:** robots and browser JavaScript are not
    access control. Cloudflare edge rules and Functions are required for
    enforcement.
+7. **Set-Cookie folding in Workers / Pages:** Do not join multiple `Set-Cookie`
+   headers with `, ` (e.g. `.join(', ')`) when constructing HTTP responses.
+   In standard fetch and browser implementations, cookie attribute commas
+   collide with the separator and corrupt cookies. Always use
+   `response.headers.append('Set-Cookie', ...)` and extract existing cookies with
+   `headers.getSetCookie()` in middleware wrappers.
+8. **Relative import paths across nested Functions:** Cloudflare Pages Functions
+   resolve imports relative to the subfolder where the handler file lives
+   (e.g. `functions/api/comments/[id]/reactions/[emoji].js` requires
+   `../../../../_lib/comments.js`).
+9. **Typography styles leaking into comment UI:** Novel reading text uses high
+   line-height and serif styling scoped to `<article>`. To prevent comments from
+   inheriting article typography ("big quotes" appearance), render comments in
+   `<div class="native-comment">` and scope styling with `font-family: var(--font-ui)`.
+10. **Graceful D1 degradation:** Always check if `env.COMMENTS_DB` is bound
+    before issuing queries; unconfigured D1 databases should return structured
+    fallback JSON (e.g. `{ comments: [] }`) instead of unhandled 500 HTML error
+    pages.
 
 ## Current validation baseline
 
