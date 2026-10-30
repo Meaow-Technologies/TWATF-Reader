@@ -9,6 +9,7 @@ import {
 } from "../../_lib/comments.js";
 
 export async function onRequestPatch({ request, env, params }) {
+  if (!env.COMMENTS_DB) return errorResponse("Comments are temporarily unavailable.", 503);
   const user = await currentUser(request, env);
   if (!user) return errorResponse("Sign in with Discord to edit comments.", 401);
   if (!allowRequest(request, user)) return errorResponse("Too many requests. Please try again later.", 429);
@@ -31,6 +32,7 @@ export async function onRequestPatch({ request, env, params }) {
 }
 
 export async function onRequestDelete({ request, env, params }) {
+  if (!env.COMMENTS_DB) return errorResponse("Comments are temporarily unavailable.", 503);
   const user = await currentUser(request, env);
   if (!user) return errorResponse("Sign in with Discord to delete comments.", 401);
   if (!allowRequest(request, user)) return errorResponse("Too many requests. Please try again later.", 429);
