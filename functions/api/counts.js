@@ -1,6 +1,7 @@
 import { errorResponse, json, normalizeChapter, validChapter } from "../_lib/comments.js";
 
 export async function onRequestGet({ request, env }) {
+  if (!env.COMMENTS_DB) return json({ counts: {} });
   const values = new URL(request.url).searchParams.get("chapters")?.split(",") || [];
   const chapters = values.map(normalizeChapter).filter(validChapter).slice(0, 100);
   if (!chapters.length) return json({ counts: {} });
