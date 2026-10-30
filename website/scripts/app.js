@@ -21,6 +21,7 @@ const _isRedirecting = (() => {
 })();
 
 if (!_isRedirecting) {
+// ── Shared state and persistence ──
 const $ = (s) => document.querySelector(s);
 let catalog,
   version = "revised",
@@ -80,7 +81,7 @@ const epubs = {
   revised: "assets/downloads/The_World_After_The_Fall_Revised.epub",
 };
 
-// Derive mode from pathname
+// ── Routing ──
 function getRouteInfo() {
   const p = location.pathname;
   // /first/chapter-N or /revised/chapter-N
@@ -105,6 +106,7 @@ const checkIsIndex = () => {
   return mode === "index";
 };
 
+// ── Chapter index ──
 let reverseIndex = false;
 function indexRender() {
   if (!catalog) return;
@@ -185,6 +187,8 @@ function support(kind) {
       : "A contribution link will be added soon.";
   $("#support").showModal();
 }
+
+// ── Reader preferences ──
 function settings() {
   document.body.dataset.theme = state.theme;
   document.documentElement.style.setProperty("--size", state.size + "px");
@@ -246,6 +250,8 @@ function updateResumeEditions() {
     revEl.textContent = `Revised Edition (Chapter ${revN})`;
   }
 }
+
+// ── Chapters and bookmarks dialog ──
 function list() {
   if (!catalog) return;
   const selected = $("#list-version").value;
@@ -336,6 +342,7 @@ function storePosition() {
   updateResumeEditions();
 }
 
+// ── Reader loading and navigation ──
 // Shared post-load logic (used by prerendered and fetched paths)
 function afterChapterLoaded(v, n, entry, idx) {
   window.readerComments.show(v, n);
@@ -483,7 +490,7 @@ function navigate(delta) {
   if (c) location.href = `/${version}/chapter-${c.number}`;
 }
 
-// Wire up static DOM
+// ── Event wiring ──
 const startEl = $("#start");
 if (startEl) {
   if (startEl.tagName === "A") {
@@ -633,7 +640,6 @@ function resizeText(delta) {
 }
 $("#size-down").onclick = () => resizeText(-1);
 $("#size-up").onclick = () => resizeText(1);
-
 
 // ── Reader header: auto-hide on scroll-down, reveal on scroll-up / left-click ──
 (function () {

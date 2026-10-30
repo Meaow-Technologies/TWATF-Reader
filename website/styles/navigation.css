@@ -56,6 +56,28 @@ body > header > nav {
   border: 0;
 }
 
+/* Static chapter navigation links. */
+.chapter-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 32px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-ui, "DM Sans", system-ui, sans-serif);
+  font-size: 0.9rem;
+}
+.chapter-links a {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
 /* In-reader chapter picker: the underlying chapter stays in place. */
 .chapter-popup-open {
   overflow: hidden;

@@ -68,6 +68,7 @@ def xml(value):
     return html.escape(str(value), quote=True)
 
 
+# ── EPUB and chapter source processing ──
 def document(title, body):
     return (
         '<?xml version="1.0" encoding="utf-8"?>\n'
@@ -204,6 +205,7 @@ def verify_epub(path, rows):
 
 # ─── Head manipulation helpers ─────────────────────────────────────────────────
 
+# ── SEO and metadata generation ──
 def _strip_tags(text):
     """Strip HTML tags from a string."""
     return re.sub(r"<[^>]+>", "", text)
@@ -386,6 +388,7 @@ def _insert_head_block(markup, new_block):
     return markup[:idx] + "    " + new_block + "\n  " + markup[idx:]
 
 
+# ── Static page generation ──
 def generate_chapter_pages(out, edition, rows, base_index_html):
     """Generate static chapter pages for one edition."""
     edition_dir = out / edition
@@ -680,6 +683,7 @@ def update_chapters_page(out, books):
     p.write_text(markup, encoding="utf-8")
 
 
+# ── Build validation and orchestration ──
 def assert_no_placeholders(pages):
     """Assert no {{ }} placeholders remain in generated pages."""
     for page in pages:

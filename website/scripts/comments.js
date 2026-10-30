@@ -1,5 +1,6 @@
 // Giscus uses a stable edition/chapter key, never the shared index.html pathname.
 (() => {
+  // ── Authentication return path and session sync ──
   const GISCUS_SESSION_KEY = "giscus-session";
   const params = new URLSearchParams(location.search);
   const giscusSession = params.get("giscus");
@@ -63,6 +64,8 @@
       ? `${GISCUS_THEME_BASE}/light.css?v=${GISCUS_THEME_VERSION}`
       : `${GISCUS_THEME_BASE}/dark.css?v=${GISCUS_THEME_VERSION}`;
   const mount = () => document.getElementById("giscus-thread");
+
+  // ── Giscus lifecycle and configuration ──
   function sync() {
     const frame = mount()?.querySelector("iframe.giscus-frame");
     const category = window.READER_CONFIG?.giscus?.categories?.[activeEdition];
@@ -151,7 +154,6 @@
     theme: sync,
   };
 })();
-
 
 // ── Profanity / slur filter for Giscus comment submission ──
 // Intercepts postMessage traffic from the page to giscus iframe.
