@@ -1,0 +1,35 @@
+name: Migrate Giscus comments
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Only process the first N discussions"
+        required: false
+        default: ""
+      apply:
+        description: "Generate the SQL migration file"
+        type: boolean
+        default: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate migration SQL
+        env:
+          GITHUB_DISCUSSIONS_TOKEN: ${{ secrets.GH_DISCUSSIONS_TOKEN || secrets.DISCUSSIONS_TOKEN }}
+        run: |
+          args=""
+          if [ -n "${{ inputs.limit }}" ]; then args="--limit=${{ inputs.limit }}"; fi
+          if [ "${{ inputs.apply }}" = "true" ]; then node scripts/migrate_giscus.mjs $args --apply; else node scripts/migrate_giscus.mjs $args; fi
+      - name: Upload migration SQL
+        if: ${{ inputs.apply }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: twatf-giscus-migration
+          path: scripts/out/migrate_giscus.sql
