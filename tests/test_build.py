@@ -33,6 +33,22 @@ class BuildTests(unittest.TestCase):
    self.assertIn(f'<option value="{mode}"',comments)
    self.assertIn(label,comments)
   self.assertTrue((ROOT/'functions/api/comments/[id]/vote.js').is_file())
+ def test_comment_reaction_lists_match(self):
+  import re
+  server=(ROOT/'functions/_lib/comments.js').read_text(encoding='utf-8')
+  client=(ROOT/'website/scripts/comments.js').read_text(encoding='utf-8')
+  allowed=json.loads(re.search(r'ALLOWED_EMOJIS\s*=\s*new Set\((\[[^\]]*\])\)',server).group(1))
+  emojis=json.loads(re.search(r'const EMOJIS\s*=\s*(\[[^\]]*\])',client).group(1))
+  retired={'👍','👎','🚀'}
+  added={'😭','🤗','💀'}
+  for values in [allowed,emojis]:
+   self.assertEqual(len(values),10)
+   self.assertTrue(retired.isdisjoint(values))
+   self.assertTrue(added.issubset(values))
+  self.assertEqual(set(allowed),set(emojis))
+  expected=['❤️','😂','😮','😢','😭','🤗','🎉','🔥','👀','💀']
+  self.assertEqual(allowed,expected)
+  self.assertEqual(emojis,expected)
  def test_correction_propagates_to_site_and_matching_epub(self):
   builder.build(self.root)
   p=self.root/'chapters/first/0001.xhtml';p.write_text(p.read_text().replace('</body>','<p>Verified correction &amp; punctuation.</p></body>'))

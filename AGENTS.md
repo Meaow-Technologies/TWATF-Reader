@@ -324,6 +324,10 @@ The frontend UI is implemented in `website/scripts/comments.js` and styled in
   supports Popular, Oldest, and Newest; its selection is stored separately in
   localStorage under `twatf-comment-sort`.
 - Smile-plus emoji reaction button with popover picker.
+- Keep the available reaction lists identical in
+  `functions/_lib/comments.js` (`ALLOWED_EMOJIS`) and
+  `website/scripts/comments.js` (`EMOJIS`). Retired reactions are cleaned up
+  by `functions/migrations/0002_remove_retired_reactions.sql`.
 - Centered chapter reaction bar above the comments list.
 - Notice banner informing users of spoiler etiquette and Discord rules.
 - Real-time theme synchronization: a `MutationObserver` watches `data-theme`

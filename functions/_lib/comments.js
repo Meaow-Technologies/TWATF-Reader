@@ -4,7 +4,7 @@ const SESSION_DAYS = 30;
 const RATE_WINDOW_MS = 60_000;
 const RATE_LIMIT = 12;
 const ADMIN_IDS = new Set(["753867276431654923", "979012536802373672"]);
-const ALLOWED_EMOJIS = new Set(["👍", "❤️", "😂", "🎉", "😮", "😢", "🔥", "👀", "🚀", "👎"]);
+const ALLOWED_EMOJIS = new Set(["❤️", "😂", "😮", "😢", "😭", "🤗", "🎉", "🔥", "👀", "💀"]);
 const rateWindows = new Map();
 
 const SLUR_PATTERNS = [

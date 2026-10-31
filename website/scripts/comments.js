@@ -3,7 +3,7 @@
 (() => {
   const GISCUS_THEME_BASE = "https://twatf.pages.dev/giscus";
   const GISCUS_THEME_VERSION = "owners-v3";
-  const EMOJIS = ["👍", "❤️", "😂", "🎉", "😮", "😢", "🔥", "👀", "🚀", "👎"];
+  const EMOJIS = ["❤️", "😂", "😮", "😢", "😭", "🤗", "🎉", "🔥", "👀", "💀"];
   const SORT_STORAGE_KEY = "twatf-comment-sort";
   const SORT_MODES = ["popular", "oldest", "newest"];
   function storedSortMode() {
@@ -129,7 +129,7 @@
   function reactionButtons(reactions, commentId, chapter = false) {
     const existing = new Map((reactions || []).map((reaction) => [reaction.emoji, reaction]));
     const buttons = [...existing.values()]
-      .filter((reaction) => reaction.count)
+      .filter((reaction) => EMOJIS.includes(reaction.emoji) && reaction.count)
       .map((reaction) => `<button class="native-reaction${reaction.mine ? " mine" : ""}" data-action="react"
         data-id="${commentId || ""}" data-emoji="${escapeHtml(reaction.emoji)}" ${chapter ? 'data-chapter-reaction="true"' : ""}>
         <span>${escapeHtml(reaction.emoji)}</span> <span class="native-reaction-count">${reaction.count}</span></button>`)
