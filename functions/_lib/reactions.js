@@ -1,4 +1,5 @@
 import { formatUser } from "./comments.js";
+import { loadVoteSummaries } from "./votes.js";
 
 function formatComment(row, reactions, user) {
   const grouped = new Map();
@@ -35,16 +36,22 @@ function formatComment(row, reactions, user) {
 export async function formatCommentWithReactions(env, rows, user) {
   if (!rows.length) return [];
   const ids = rows.map((row) => row.id);
-  const reactions = await env.COMMENTS_DB.prepare(
-    `SELECT r.comment_id, r.user_id, r.emoji, u.display_name
-       FROM reactions r JOIN users u ON u.id = r.user_id
-      WHERE r.comment_id IN (${ids.map(() => "?").join(",")})`,
-  ).bind(...ids).all();
+  const [reactions, votes] = await Promise.all([
+    env.COMMENTS_DB.prepare(
+      `SELECT r.comment_id, r.user_id, r.emoji, u.display_name
+         FROM reactions r JOIN users u ON u.id = r.user_id
+        WHERE r.comment_id IN (${ids.map(() => "?").join(",")})`,
+    ).bind(...ids).all(),
+    loadVoteSummaries(env, ids, user),
+  ]);
   const byComment = new Map();
   for (const reaction of reactions.results || []) {
     const list = byComment.get(reaction.comment_id) || [];
     list.push(reaction);
     byComment.set(reaction.comment_id, list);
   }
-  return rows.map((row) => formatComment(row, byComment.get(row.id) || [], user));
+  return rows.map((row) => ({
+    ...formatComment(row, byComment.get(row.id) || [], user),
+    votes: votes.get(row.id),
+  }));
 }

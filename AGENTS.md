@@ -281,10 +281,15 @@ Pages Functions and Cloudflare D1, styled compactly after the GSGW-Reader UI.
   - `GET /api/me`: Returns current user session state (`{ authenticated: true, user: {...} }`
     or `{ authenticated: false }`).
 - **Comments and reactions API**:
-  - `GET /api/comments?chapterId=<id>`: Retrieves comments and nested reply
-    trees for the chapter with user avatars, roles, and reaction counts.
+  - `GET /api/comments?chapter=<id>&sort=popular|oldest|newest`: Retrieves
+    comments with user avatars, roles, reaction counts, and vote summaries.
+    The sort parameter defaults to newest for backwards compatibility.
   - `POST /api/comments`: Submits a top-level comment or reply (requires
-    authenticated session).
+    authenticated session); the returned comment includes a vote summary.
+  - `GET /api/comments/:id/replies`: Retrieves oldest-first replies with vote
+    summaries.
+  - `POST /api/comments/:id/vote`: Sets, switches, or clears the signed-in
+    user's upvote/downvote and returns the comment's vote summary.
   - `POST /api/comments/:id/reactions/:emoji`: Toggles an emoji reaction on a
     comment.
   - `GET /api/chapter-reactions?chapterId=<id>`: Fetches aggregated emoji
@@ -300,8 +305,13 @@ Bound to Cloudflare Pages as `COMMENTS_DB` (Cloudflare D1 SQLite database):
 - `sessions`: Session ID, user ID, expiration timestamp, and client metadata.
 - `comments`: Chapter ID, parent comment ID (for nested replies), user ID,
   comment body, edit timestamps, and soft-delete flag.
-- `comment_reactions`: Comment ID, user ID, emoji, and timestamp.
+- `reactions`: Comment ID, user ID, emoji, and timestamp.
+- `comment_votes`: One upvote or downvote per comment and user, with a value of
+  `1` or `-1`.
 - `chapter_reactions`: Chapter ID, user ID, emoji, and timestamp.
+
+Production D1 databases need the vote table migration applied separately:
+`npx wrangler d1 execute twatf-comments --remote --file=functions/migrations/0001_comment_votes.sql`.
 
 ### Frontend styling and theme synchronization
 
@@ -310,6 +320,9 @@ The frontend UI is implemented in `website/scripts/comments.js` and styled in
 
 - Compact 14px cards with avatar, author name, timestamp, reply button, and
   reaction counts.
+- Upvote/downvote controls appear on comments and replies. The sort menu
+  supports Popular, Oldest, and Newest; its selection is stored separately in
+  localStorage under `twatf-comment-sort`.
 - Smile-plus emoji reaction button with popover picker.
 - Centered chapter reaction bar above the comments list.
 - Notice banner informing users of spoiler etiquette and Discord rules.
@@ -528,7 +541,7 @@ means the request did not reach Cloudflare and cannot test edge middleware.
 
 ## Current validation baseline
 
-The repository's test suite currently contains five build/regression tests.
+The repository's test suite currently contains seven build/regression tests.
 They validate correction propagation, EPUB consistency, invalid-source safety,
 missing chapters, whitespace handling, generated discovery metadata, canonical
 URLs, navigation links, robots rules, and asset hashing.

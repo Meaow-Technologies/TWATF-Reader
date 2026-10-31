@@ -20,6 +20,19 @@ class BuildTests(unittest.TestCase):
   for name in ['dark.css','light.css']:
    theme=(ROOT/'website/giscus'/name).read_text(encoding='utf-8')
    self.assertEqual(re.search(r'admin\.css\?v=([^"]+)',theme).group(1),version)
+ def test_comment_voting_files_and_sort_controls(self):
+  schema=(ROOT/'functions/schema.sql').read_text(encoding='utf-8')
+  migration=(ROOT/'functions/migrations/0001_comment_votes.sql').read_text(encoding='utf-8')
+  for ddl in [schema,migration]:
+   self.assertIn('CREATE TABLE IF NOT EXISTS comment_votes',ddl)
+   self.assertIn('PRIMARY KEY (comment_id, user_id)',ddl)
+   self.assertIn('CHECK (value IN (-1, 1))',ddl)
+  comments=(ROOT/'website/scripts/comments.js').read_text(encoding='utf-8')
+  self.assertIn('"twatf-comment-sort"',comments)
+  for mode,label in [('popular','Popular'),('oldest','Oldest'),('newest','Newest')]:
+   self.assertIn(f'<option value="{mode}"',comments)
+   self.assertIn(label,comments)
+  self.assertTrue((ROOT/'functions/api/comments/[id]/vote.js').is_file())
  def test_correction_propagates_to_site_and_matching_epub(self):
   builder.build(self.root)
   p=self.root/'chapters/first/0001.xhtml';p.write_text(p.read_text().replace('</body>','<p>Verified correction &amp; punctuation.</p></body>'))

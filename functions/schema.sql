@@ -40,6 +40,14 @@ CREATE TABLE IF NOT EXISTS reactions (
   PRIMARY KEY(comment_id, user_id, emoji)
 );
 
+CREATE TABLE IF NOT EXISTS comment_votes (
+  comment_id INTEGER NOT NULL REFERENCES comments(id) ON DELETE CASCADE,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  value INTEGER NOT NULL CHECK (value IN (-1, 1)),
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (comment_id, user_id)
+);
+
 CREATE TABLE IF NOT EXISTS chapter_reactions (
   chapter TEXT NOT NULL,
   user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,

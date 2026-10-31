@@ -11,7 +11,7 @@ export async function onRequestGet({ request, env, params }) {
               u.id AS user_id, u.provider, u.provider_user_id, u.login, u.display_name,
               u.avatar_url, u.is_admin, u.is_legacy AS user_is_legacy
          FROM comments c JOIN users u ON u.id = c.user_id
-        WHERE c.parent_id = ? AND c.deleted_at IS NULL ORDER BY c.created_at ASC`,
+        WHERE c.parent_id = ? AND c.deleted_at IS NULL ORDER BY c.created_at ASC, c.id ASC`,
     ).bind(id).all();
     const comments = await formatCommentWithReactions(env, rows.results || [], user);
     return json({ comments, total: comments.length });

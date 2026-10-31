@@ -152,6 +152,28 @@ body > header > nav {
   padding: 2px 0 10px;
   border-bottom: 1px solid var(--line);
 }
+.native-sort-menu {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.native-sort-select {
+  min-height: 32px;
+  padding: 4px 26px 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.native-sort-select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 .native-comments-title-wrap {
   display: flex;
   align-items: center;
@@ -440,6 +462,62 @@ body[data-theme$="-light"] .native-badge-legacy {
   align-items: center;
   gap: 6px;
 }
+.native-vote-control {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.native-vote-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 27px;
+  min-height: 26px;
+  padding: 3px 6px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.native-vote-button:hover {
+  background: color-mix(in srgb, var(--line) 35%, var(--bg));
+  color: var(--text);
+}
+.native-vote-button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.native-vote-up[aria-pressed="true"] {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.native-vote-down[aria-pressed="true"] {
+  color: #ef4444;
+  background: color-mix(in srgb, #ef4444 12%, transparent);
+}
+.native-vote-button svg {
+  display: block;
+}
+.native-vote-score {
+  min-width: 18px;
+  padding: 0 1px;
+  color: var(--text);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
 .native-reaction-row {
   display: inline-flex;
   flex-wrap: wrap;
@@ -670,6 +748,13 @@ body[data-theme$="-light"] .native-badge-legacy {
   color: var(--accent);
 }
 @media (max-width: 480px) {
+  .native-vote-button {
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .native-vote-control {
+    min-height: 34px;
+  }
   #contents {
     padding: 20px 14px 12px;
   }

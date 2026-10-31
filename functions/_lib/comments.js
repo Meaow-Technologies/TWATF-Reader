@@ -155,8 +155,8 @@ function clientKey(request, user) {
   return user ? `user:${user.id}` : `ip:${request.headers.get("CF-Connecting-IP") || "anonymous"}`;
 }
 
-function allowRequest(request, user) {
-  const key = clientKey(request, user);
+function allowRequest(request, user, scope = "default", limit = RATE_LIMIT) {
+  const key = `${clientKey(request, user)}:${scope}`;
   const now = Date.now();
   const current = rateWindows.get(key);
   if (!current || now - current.startedAt >= RATE_WINDOW_MS) {
@@ -164,7 +164,7 @@ function allowRequest(request, user) {
     return true;
   }
   current.count += 1;
-  return current.count <= RATE_LIMIT;
+  return current.count <= limit;
 }
 
 async function dbUser(env, id) {

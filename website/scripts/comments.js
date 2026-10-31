@@ -4,6 +4,17 @@
   const GISCUS_THEME_BASE = "https://twatf.pages.dev/giscus";
   const GISCUS_THEME_VERSION = "owners-v3";
   const EMOJIS = ["👍", "❤️", "😂", "🎉", "😮", "😢", "🔥", "👀", "🚀", "👎"];
+  const SORT_STORAGE_KEY = "twatf-comment-sort";
+  const SORT_MODES = ["popular", "oldest", "newest"];
+  function storedSortMode() {
+    try {
+      const saved = localStorage.getItem(SORT_STORAGE_KEY);
+      return SORT_MODES.includes(saved) ? saved : "popular";
+    } catch {
+      return "popular";
+    }
+  }
+  let sortMode = storedSortMode();
   let activeChapter = null;
   let activeEdition = null;
   let currentUser = null;
@@ -154,6 +165,7 @@
       ? `<button class="native-comment-action" data-action="edit" data-id="${comment.id}">Edit</button>
          <button class="native-comment-action native-action-delete" data-action="delete" data-id="${comment.id}">Delete</button>`
       : "";
+    const votes = comment.votes || { score: 0, mine: 0 };
     return `<div class="native-comment${compact ? " native-comment-compact" : ""}" data-comment-id="${comment.id}">
       ${avatar}
       <div class="native-comment-content">
@@ -168,6 +180,17 @@
         </div>
         <div class="native-comment-body">${markdown(comment.body)}</div>
         <div class="native-comment-actions">
+          <div class="native-vote-control" aria-label="Comment votes">
+            <button type="button" class="native-vote-button native-vote-up" data-action="vote" data-id="${comment.id}" data-value="1"
+              aria-label="Upvote" aria-pressed="${votes.mine === 1}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+            </button>
+            <span class="native-vote-score">${Number(votes.score) || 0}</span>
+            <button type="button" class="native-vote-button native-vote-down" data-action="vote" data-id="${comment.id}" data-value="-1"
+              aria-label="Downvote" aria-pressed="${votes.mine === -1}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </div>
           <div class="native-reaction-row">${reactionButtons(comment.reactions, comment.id)}</div>
           ${controls}${ownerControls}
         </div>
@@ -201,6 +224,17 @@
     </div>`;
   }
 
+  function sortMenuHtml() {
+    return `<div class="native-sort-menu">
+      <label for="native-comment-sort">Sort by</label>
+      <select id="native-comment-sort" class="native-sort-select" data-sort aria-label="Sort comments">
+        <option value="popular"${sortMode === "popular" ? " selected" : ""}>Popular</option>
+        <option value="oldest"${sortMode === "oldest" ? " selected" : ""}>Oldest</option>
+        <option value="newest"${sortMode === "newest" ? " selected" : ""}>Newest</option>
+      </select>
+    </div>`;
+  }
+
   function render() {
     if (!nativeMount()) return;
     const roots = comments.filter((comment) => !comment.parentId);
@@ -214,6 +248,7 @@
         </div>
         ${userHeader()}
       </div>
+      ${loaded ? sortMenuHtml() : ""}
       ${composeHtml()}
       ${loaded
         ? roots.length
@@ -244,7 +279,7 @@
     try {
       const [me, data, chapterReactions] = await Promise.all([
         request("/api/me"),
-        request(`/api/comments?chapter=${encodeURIComponent(activeChapter)}`),
+        request(`/api/comments?chapter=${encodeURIComponent(activeChapter)}&sort=${sortMode}`),
         request(`/api/chapter-reactions?chapter=${encodeURIComponent(activeChapter)}`),
       ]);
       currentUser = me.user;
@@ -259,7 +294,7 @@
   }
 
   async function refresh() {
-    const data = await request(`/api/comments?chapter=${encodeURIComponent(activeChapter)}`);
+    const data = await request(`/api/comments?chapter=${encodeURIComponent(activeChapter)}&sort=${sortMode}`);
     comments = data.comments || [];
     replyCounts = data.replyCounts || {};
     render();
@@ -292,6 +327,28 @@
     const id = Number(target.dataset.id);
     try {
       if (action === "load") return loadNative();
+      if (action === "vote") {
+        if (!currentUser) {
+          alert("Sign in with Discord to vote.");
+          return;
+        }
+        const voteControl = target.closest(".native-vote-control");
+        const activeVote = Number(voteControl.querySelector('[data-action="vote"][aria-pressed="true"]')?.dataset.value || 0);
+        const value = Number(target.dataset.value) === activeVote ? 0 : Number(target.dataset.value);
+        const result = await request(`/api/comments/${id}/vote`, {
+          method: "POST",
+          body: JSON.stringify({ value }),
+        });
+        const updatedVotes = result.votes;
+        const score = voteControl.querySelector(".native-vote-score");
+        score.textContent = String(updatedVotes.score);
+        voteControl.querySelectorAll('[data-action="vote"]').forEach((button) => {
+          button.setAttribute("aria-pressed", String(Number(button.dataset.value) === updatedVotes.mine));
+        });
+        const comment = comments.find((item) => item.id === id);
+        if (comment) comment.votes = updatedVotes;
+        return;
+      }
       if (action === "replies") {
         if (expandedReplies.has(id)) expandedReplies.delete(id);
         else expandedReplies.add(id);
@@ -396,6 +453,22 @@
     }
   }
 
+  async function handleNativeChange(event) {
+    const select = event.target.closest("[data-sort]");
+    if (!select || !SORT_MODES.includes(select.value)) return;
+    sortMode = select.value;
+    try {
+      localStorage.setItem(SORT_STORAGE_KEY, sortMode);
+    } catch {
+      // Sorting still applies for this page view when storage is unavailable.
+    }
+    try {
+      await refresh();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   function startLegacyGiscus() {
     if (giscusStarted || !activeEdition || !activeChapter) return;
     const config = window.READER_CONFIG?.giscus;
@@ -463,6 +536,7 @@
   };
 
   $("#native-comments")?.addEventListener("click", handleNativeClick);
+  $("#native-comments")?.addEventListener("change", handleNativeChange);
   $("#native-comments")?.addEventListener("submit", (event) => {
     if (event.target.matches("[data-compose]")) {
       event.preventDefault();

@@ -2,7 +2,6 @@ import {
   commentEmbed,
   currentUser,
   errorResponse,
-  formatUser,
   json,
   normalizeChapter,
   notifyDiscord,
@@ -11,56 +10,8 @@ import {
   validateBody,
   allowRequest,
 } from "../_lib/comments.js";
-
-function formatComment(row, reactions, user) {
-  const grouped = new Map();
-  for (const reaction of reactions) {
-    const item = grouped.get(reaction.emoji) || { emoji: reaction.emoji, count: 0, mine: false, users: [] };
-    item.count += 1;
-    item.mine ||= reaction.user_id === user?.id;
-    if (item.users.length < 20) item.users.push(reaction.display_name);
-    grouped.set(reaction.emoji, item);
-  }
-  return {
-    id: row.id,
-    chapter: row.chapter,
-    parentId: row.parent_id,
-    body: row.body,
-    isLegacy: Boolean(row.is_legacy),
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
-    edited: Boolean(row.updated_at),
-    author: formatUser({
-      id: row.user_id,
-      provider: row.provider,
-      provider_user_id: row.provider_user_id,
-      login: row.login,
-      display_name: row.display_name,
-      avatar_url: row.avatar_url,
-      is_admin: row.is_admin,
-      is_legacy: row.user_is_legacy,
-    }),
-    reactions: [...grouped.values()],
-  };
-}
-
-async function commentsWithReactions(env, rows, user) {
-  if (!rows.length) return [];
-  const ids = rows.map((row) => row.id);
-  const placeholders = ids.map(() => "?").join(",");
-  const reactions = await env.COMMENTS_DB.prepare(
-    `SELECT r.comment_id, r.user_id, r.emoji, u.display_name
-       FROM reactions r JOIN users u ON u.id = r.user_id
-      WHERE r.comment_id IN (${placeholders})`,
-  ).bind(...ids).all();
-  const byComment = new Map();
-  for (const reaction of reactions.results || []) {
-    const list = byComment.get(reaction.comment_id) || [];
-    list.push(reaction);
-    byComment.set(reaction.comment_id, list);
-  }
-  return rows.map((row) => formatComment(row, byComment.get(row.id) || [], user));
-}
+import { formatCommentWithReactions } from "../_lib/reactions.js";
+import { isMissingVotesTable } from "../_lib/votes.js";
 
 async function counts(env, chapter) {
   const row = await env.COMMENTS_DB.prepare(
@@ -77,22 +28,40 @@ async function counts(env, chapter) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const chapter = normalizeChapter(new URL(request.url).searchParams.get("chapter"));
-  const scope = new URL(request.url).searchParams.get("scope") || "roots";
+  const params = new URL(request.url).searchParams;
+  const chapter = normalizeChapter(params.get("chapter"));
+  const scope = params.get("scope") || "roots";
+  const sort = params.has("sort") ? params.get("sort") : "newest";
   if (!validChapter(chapter)) return errorResponse("Invalid chapter.", 400);
+  if (!["popular", "oldest", "newest"].includes(sort)) return errorResponse("Invalid sort.", 400);
   try {
     const user = await currentUser(request, env);
     const summary = await counts(env, chapter);
     if (scope === "count") return json(summary);
-    const rows = await env.COMMENTS_DB.prepare(
-      `SELECT c.id, c.chapter, c.parent_id, c.body, c.is_legacy, c.created_at, c.updated_at,
+    const baseQuery = `SELECT c.id, c.chapter, c.parent_id, c.body, c.is_legacy, c.created_at, c.updated_at,
               u.id AS user_id, u.provider, u.provider_user_id, u.login, u.display_name,
               u.avatar_url, u.is_admin, u.is_legacy AS user_is_legacy
          FROM comments c JOIN users u ON u.id = c.user_id
-        WHERE c.chapter = ? AND c.parent_id IS NULL AND c.deleted_at IS NULL
-        ORDER BY c.created_at DESC LIMIT 200`,
-    ).bind(chapter).all();
-    const comments = await commentsWithReactions(env, rows.results || [], user);
+        WHERE c.chapter = ? AND c.parent_id IS NULL AND c.deleted_at IS NULL`;
+    const ordering = {
+      popular: `COALESCE((SELECT SUM(v.value) FROM comment_votes v WHERE v.comment_id = c.id), 0) DESC,
+                c.created_at DESC, c.id DESC`,
+      oldest: "c.created_at ASC, c.id ASC",
+      newest: "c.created_at DESC, c.id DESC",
+    };
+    let rows;
+    try {
+      rows = await env.COMMENTS_DB.prepare(
+        `${baseQuery} ORDER BY ${ordering[sort]} LIMIT 200`,
+      ).bind(chapter).all();
+    } catch (error) {
+      if (sort !== "popular" || !isMissingVotesTable(error)) throw error;
+      console.error("Popular comment ordering unavailable; falling back to newest because comment_votes is missing:", error);
+      rows = await env.COMMENTS_DB.prepare(
+        `${baseQuery} ORDER BY c.created_at DESC, c.id DESC LIMIT 200`,
+      ).bind(chapter).all();
+    }
+    const comments = await formatCommentWithReactions(env, rows.results || [], user);
     const replyRows = await env.COMMENTS_DB.prepare(
       `SELECT parent_id, COUNT(*) AS count
          FROM comments WHERE chapter = ? AND parent_id IS NOT NULL AND deleted_at IS NULL
@@ -143,7 +112,7 @@ export async function onRequestPost({ request, env }) {
               u.avatar_url, u.is_admin, u.is_legacy AS user_is_legacy
          FROM comments c JOIN users u ON u.id = c.user_id WHERE c.id = ?`,
     ).bind(result.meta.last_row_id).first();
-    const comment = (await commentsWithReactions(env, [row], user))[0];
+    const comment = (await formatCommentWithReactions(env, [row], user))[0];
     try {
       await notifyDiscord(env, commentEmbed(comment, user, new URL(request.url).origin));
     } catch (error) {
