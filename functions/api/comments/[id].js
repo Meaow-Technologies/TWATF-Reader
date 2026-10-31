@@ -24,7 +24,7 @@ export async function onRequestPatch({ request, env, params }) {
     "SELECT user_id FROM comments WHERE id = ? AND deleted_at IS NULL",
   ).bind(id).first();
   if (!comment) return errorResponse("Comment not found.", 404);
-  if (comment.user_id !== user.id && !isAdmin(user)) return errorResponse("You cannot edit this comment.", 403);
+  if (comment.user_id !== user.id) return errorResponse("You cannot edit this comment.", 403);
   await env.COMMENTS_DB.prepare(
     "UPDATE comments SET body = ?, updated_at = ? WHERE id = ?",
   ).bind(body, nowIso(), id).run();

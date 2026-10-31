@@ -287,7 +287,7 @@ Pages Functions and Cloudflare D1, styled compactly after the GSGW-Reader UI.
   - `GET /api/comments?chapter=<id>&sort=popular|oldest|newest`: Retrieves
     comments with user avatars, roles, reaction counts, and vote summaries.
     The sort parameter defaults to newest for backwards compatibility.
-  - `POST /api/comments`: Submits a top-level comment or reply (requires
+  - `POST /api/comments`: Submits a top-level comment or nested reply (requires
     authenticated session); the returned comment includes a vote summary.
   - `GET /api/comments/:id/replies`: Retrieves oldest-first replies with vote
     summaries.
@@ -326,6 +326,8 @@ The frontend UI is implemented in `website/scripts/comments.js` and styled in
 - Upvote/downvote controls appear on comments and replies. The sort menu
   supports Popular, Oldest, and Newest; its selection is stored separately in
   localStorage under `twatf-comment-sort`.
+- Replies can target any non-deleted comment, and nested reply threads load
+  oldest-first.
 - Smile-plus emoji reaction button with popover picker.
 - Keep the available reaction lists identical in
   `functions/_lib/comments.js` (`ALLOWED_EMOJIS`) and

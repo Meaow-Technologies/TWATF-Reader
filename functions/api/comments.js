@@ -96,10 +96,9 @@ export async function onRequestPost({ request, env }) {
   try {
     if (parentId !== null) {
       const parent = await env.COMMENTS_DB.prepare(
-        "SELECT id, chapter, parent_id FROM comments WHERE id = ? AND deleted_at IS NULL",
+        "SELECT id, chapter FROM comments WHERE id = ? AND deleted_at IS NULL",
       ).bind(parentId).first();
       if (!parent || parent.chapter !== chapter) return errorResponse("Reply target not found.", 404);
-      if (parent.parent_id !== null) return errorResponse("Replies can only target top-level comments.", 400);
     }
     const createdAt = nowIso();
     const result = await env.COMMENTS_DB.prepare(

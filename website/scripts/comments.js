@@ -19,6 +19,7 @@
   let activeEdition = null;
   let currentUser = null;
   let comments = [];
+  const commentsById = new Map();
   let replyCounts = {};
   let expandedReplies = new Set();
   let loaded = false;
@@ -154,17 +155,20 @@
   }
 
   function commentHtml(comment, compact = false) {
+    commentsById.set(comment.id, comment);
     const avatar = comment.author.avatarUrl
       ? `<img src="${escapeHtml(comment.author.avatarUrl)}" alt="" class="native-comment-avatar${compact ? " native-comment-avatar-sm" : ""}" loading="lazy">`
       : `<div class="native-comment-avatar${compact ? " native-comment-avatar-sm" : ""}"></div>`;
-    const controls = currentUser && !compact
+    const controls = currentUser
       ? `<button class="native-comment-action" data-action="reply" data-id="${comment.id}">Reply</button>`
       : "";
-    const ownerControls = currentUser &&
-      (currentUser.id === comment.author.id || currentUser.isAdmin)
-      ? `<button class="native-comment-action" data-action="edit" data-id="${comment.id}">Edit</button>
-         <button class="native-comment-action native-action-delete" data-action="delete" data-id="${comment.id}">Delete</button>`
-      : "";
+    const canEdit = currentUser?.id === comment.author.id;
+    const canDelete = canEdit || currentUser?.isAdmin;
+    const ownerControls = `${canEdit
+      ? `<button class="native-comment-action" data-action="edit" data-id="${comment.id}">Edit</button>`
+      : ""}${canDelete
+      ? `<button class="native-comment-action native-action-delete" data-action="delete" data-id="${comment.id}">Delete</button>`
+      : ""}`;
     const votes = comment.votes || { score: 0, mine: 0 };
     return `<div class="native-comment${compact ? " native-comment-compact" : ""}" data-comment-id="${comment.id}">
       ${avatar}
@@ -194,7 +198,7 @@
           <div class="native-reaction-row">${reactionButtons(comment.reactions, comment.id)}</div>
           ${controls}${ownerControls}
         </div>
-        ${!compact && replyCounts[comment.id] ? `<button class="native-reply-toggle${expandedReplies.has(comment.id) ? " expanded" : ""}" data-action="replies" data-id="${comment.id}">
+        ${replyCounts[comment.id] ? `<button class="native-reply-toggle${expandedReplies.has(comment.id) ? " expanded" : ""}" data-action="replies" data-id="${comment.id}">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="native-reply-chevron"><path d="m6 9 6 6 6-6"/></svg>
           ${expandedReplies.has(comment.id) ? "Hide replies" : `View ${replyCounts[comment.id]} ${replyCounts[comment.id] === 1 ? "reply" : "replies"}`}</button>` : ""}
         ${expandedReplies.has(comment.id) ? `<div class="native-replies" data-replies="${comment.id}"></div>` : ""}
@@ -237,6 +241,7 @@
 
   function render() {
     if (!nativeMount()) return;
+    commentsById.clear();
     const roots = comments.filter((comment) => !comment.parentId);
     const chapterReactions = window._nativeChapterReactions || [];
     nativeMount().innerHTML = `<div class="native-comments-card">
@@ -269,6 +274,9 @@
       const data = await request(`/api/comments/${id}/replies`);
       target.innerHTML = data.comments.map((comment) => commentHtml(comment, true)).join("");
       target.dataset.loaded = "true";
+      for (const comment of data.comments.filter((item) => expandedReplies.has(item.id))) {
+        await loadReplies(comment.id);
+      }
     } catch (error) {
       target.textContent = error.message;
     }
@@ -311,7 +319,7 @@
         method: "POST",
         body: JSON.stringify({ chapter: activeChapter, body, parentId }),
       });
-      expandedReplies.delete(parentId);
+      if (parentId !== null) expandedReplies.add(parentId);
       await refresh();
     } catch (error) {
       alert(error.message);
@@ -386,7 +394,7 @@
       }
       if (action === "edit") {
         const commentCard = target.closest("[data-comment-id]");
-        const comment = comments.find((item) => item.id === id);
+        const comment = commentsById.get(id);
         if (!comment) return;
         const form = document.createElement("form");
         form.className = "native-comment-compose";
@@ -511,6 +519,7 @@
       activeEdition = null;
       currentUser = null;
       comments = [];
+      commentsById.clear();
       loaded = false;
       giscusStarted = false;
       if (nativeMount()) nativeMount().replaceChildren();
