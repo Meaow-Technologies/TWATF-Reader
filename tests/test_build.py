@@ -40,13 +40,13 @@ class BuildTests(unittest.TestCase):
   allowed=json.loads(re.search(r'ALLOWED_EMOJIS\s*=\s*new Set\((\[[^\]]*\])\)',server).group(1))
   emojis=json.loads(re.search(r'const EMOJIS\s*=\s*(\[[^\]]*\])',client).group(1))
   retired={'👍','👎','🚀'}
-  added={'😭','🤗','💀'}
+  added={'😭','🫂','💀'}
   for values in [allowed,emojis]:
    self.assertEqual(len(values),10)
    self.assertTrue(retired.isdisjoint(values))
    self.assertTrue(added.issubset(values))
   self.assertEqual(set(allowed),set(emojis))
-  expected=['❤️','😂','😮','😢','😭','🤗','🎉','🔥','👀','💀']
+  expected=['❤️','😂','😮','😢','😭','🫂','🎉','🔥','👀','💀']
   self.assertEqual(allowed,expected)
   self.assertEqual(emojis,expected)
  def test_correction_propagates_to_site_and_matching_epub(self):

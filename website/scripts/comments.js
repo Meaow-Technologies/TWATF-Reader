@@ -3,7 +3,7 @@
 (() => {
   const GISCUS_THEME_BASE = "https://twatf.pages.dev/giscus";
   const GISCUS_THEME_VERSION = "owners-v3";
-  const EMOJIS = ["❤️", "😂", "😮", "😢", "😭", "🤗", "🎉", "🔥", "👀", "💀"];
+  const EMOJIS = ["❤️", "😂", "😮", "😢", "😭", "🫂", "🎉", "🔥", "👀", "💀"];
   const SORT_STORAGE_KEY = "twatf-comment-sort";
   const SORT_MODES = ["popular", "oldest", "newest"];
   function storedSortMode() {

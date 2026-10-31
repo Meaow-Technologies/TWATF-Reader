@@ -37,6 +37,7 @@ let state = {
   theme: "oled",
   size: 20,
   font: "bookerly",
+  disableScrollNav: false,
 };
 try {
   Object.assign(
@@ -201,6 +202,7 @@ function settings() {
   $("#size-down").disabled = state.size <= 16;
   $("#size-up").disabled = state.size >= 30;
   $("#font").value = state.font;
+  $("#disable-scroll-nav").checked = Boolean(state.disableScrollNav);
   window.readerComments?.theme();
 }
 function choose(v) {
@@ -540,6 +542,7 @@ if (settingsReset) {
     state.theme = "oled";
     state.font = "bookerly";
     state.size = 20;
+    state.disableScrollNav = false;
     settings();
     save();
   };
@@ -579,6 +582,10 @@ $("#bookmark").onclick = () => {
 $("#contents").addEventListener("close", () =>
   document.body.classList.remove("chapter-popup-open"),
 );
+$("#disable-scroll-nav").addEventListener("change", (event) => {
+  state.disableScrollNav = event.target.checked;
+  save();
+});
 
 let timer;
 addEventListener(
@@ -671,7 +678,7 @@ $("#size-up").onclick = () => resizeText(1);
           const delta = scrollY - lastY;
           if (delta > 6 && !headerPinnedByClick) {
             hideHeader();
-          } else if (delta < -6) {
+          } else if (delta < -6 && !state.disableScrollNav) {
             showHeader();
             headerPinnedByClick = false;
           }

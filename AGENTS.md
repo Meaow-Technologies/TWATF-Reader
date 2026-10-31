@@ -159,6 +159,8 @@ replacement logic in `scripts/build.py`.
 - Stores state in localStorage key `twatf-reader`.
 - Tracks edition-specific progress ratios and bookmarks.
 - Applies theme, font, and text-size settings through CSS variables.
+- Lets readers disable top-navigation reveal while scrolling up; clicking or
+  tapping the reading area can still show or hide it.
 - Opens Settings, Background, Chapters, Bookmarks, and support dialogs.
 - Maintains the duplicated chapter navigation.
 - Scrolls to the chapter discussion section from the Comments button.
@@ -170,6 +172,7 @@ version: revised
 theme: oled
 size: 20
 font: bookerly
+disableScrollNav: false
 ```
 
 Do not introduce a second state store or route system without updating the
