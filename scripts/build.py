@@ -276,9 +276,9 @@ def _build_chapter_head(edition, n, count, title, chapter_html, canonical_url):
     """Build the <head> meta block for a chapter page."""
     suffix = _chapter_title_suffix(title)
     edition_name = EDITION_NAMES[edition]
-    page_title = f"Chapter {n}: {suffix} | The World After the Fall ({edition_name})"
+    page_title = f"The World After the Fall / TWATF Chapter {n}: {suffix} | Read Online"
     snippet = _chapter_snippet(chapter_html)
-    desc_prefix = f'Read Chapter {n}, "{suffix}", of The World After the Fall ({edition_name}) by Sing Shong online. '
+    desc_prefix = f'Read The World After the Fall / TWATF Chapter {n}, "{suffix}", from the web novel ({edition_name}) by Sing Shong online. '
     desc = desc_prefix + snippet
     if len(desc) > 160:
         # Trim snippet to fit
@@ -294,7 +294,15 @@ def _build_chapter_head(edition, n, count, title, chapter_html, canonical_url):
         {"@type": "ListItem", "position": 2, "name": f"The World After the Fall — {edition_name}", "item": f"{SITE_URL}/{edition}"},
         {"@type": "ListItem", "position": 3, "name": f"Chapter {n}: {suffix}", "item": canonical_url},
     ]
-    ld_json = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": breadcrumb_items}, ensure_ascii=False)
+    ld_json = json.dumps([
+        {"@context": "https://schema.org", "@type": "Article",
+         "headline": f"Chapter {n}: {suffix}",
+         "description": desc, "url": canonical_url,
+         "isPartOf": {"@type": "Book", "name": f"The World After the Fall — {edition_name}"},
+         "author": {"@type": "Person", "name": "Sing Shong"},
+         "inLanguage": "en"},
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": breadcrumb_items},
+    ], ensure_ascii=False)
     return "\n".join([
         f'<title>{xml(page_title)}</title>',
         f'<meta name="description" content="{xml(desc)}" />',
@@ -316,13 +324,13 @@ def _build_chapter_head(edition, n, count, title, chapter_html, canonical_url):
 def _build_edition_head(edition, count, canonical_url):
     """Build the <head> meta block for an edition index page."""
     edition_name = EDITION_NAMES[edition]
-    page_title = f"The World After the Fall — {edition_name} ({count} chapters) | TWATF Reader"
+    page_title = f"The World After the Fall {edition_name} — Read Online | TWATF Reader"
     if edition == "first":
-        desc = (f"Read The World After the Fall — First Edition by Sing Shong online. "
-                f"The original 2016 publication with {count} chapters. Browse the full chapter list.")
+        desc = (f"Read the TWATF novel online: The World After the Fall First Edition by Sing Shong. "
+                f"Browse all {count} web novel chapters and download the EPUB.")
     else:
-        desc = (f"Read The World After the Fall — Revised Edition by Sing Shong online. "
-                f"The revised and republished edition with {count} chapters. Browse the full chapter list.")
+        desc = (f"Read the TWATF novel online: The World After the Fall Revised Edition by Sing Shong. "
+                f"Browse all {count} web novel chapters and download the EPUB.")
     if len(desc) > 160:
         desc = desc[:157] + "…"
     og_image = f"{SITE_URL}/assets/images/og-image.jpg"
@@ -330,7 +338,14 @@ def _build_edition_head(edition, count, canonical_url):
         {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
         {"@type": "ListItem", "position": 2, "name": f"The World After the Fall — {edition_name}", "item": canonical_url},
     ]
-    ld_json = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": breadcrumb_items}, ensure_ascii=False)
+    ld_json = json.dumps([
+        {"@context": "https://schema.org", "@type": "CollectionPage",
+         "name": page_title, "description": desc, "url": canonical_url,
+         "isPartOf": {"@type": "Book", "name": f"The World After the Fall — {edition_name}",
+                      "author": {"@type": "Person", "name": "Sing Shong"}},
+         "inLanguage": "en"},
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": breadcrumb_items},
+    ], ensure_ascii=False)
     return "\n".join([
         f'<title>{xml(page_title)}</title>',
         f'<meta name="description" content="{xml(desc)}" />',
@@ -351,17 +366,21 @@ def _build_edition_head(edition, count, canonical_url):
 
 def _build_homepage_head():
     """Build the homepage-specific meta tags (after stripping old ones)."""
-    page_title = "The World After the Fall (TWATF) – Read Online | TWATF Reader"
-    desc = "Read The World After the Fall (TWATF) by Sing Shong online. First and Revised editions, bookmarks, reading settings and EPUB downloads."
+    page_title = "TWATF Online: The World After the Fall Novel | Read Online"
+    desc = "Read the TWATF novel online: The World After the Fall web novel by Sing Shong. Choose the First or Revised Edition, browse every chapter, or download the EPUB."
     og_image = f"{SITE_URL}/assets/images/og-image.jpg"
     canonical = f"{SITE_URL}/"
-    ld_json = json.dumps({
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "The World After the Fall Reader",
-        "alternateName": ["TWATF", "TWATF Reader"],
-        "url": f"{SITE_URL}/"
-    }, ensure_ascii=False)
+    ld_json = json.dumps([
+        {"@context": "https://schema.org", "@type": "WebSite",
+         "name": "The World After the Fall Reader",
+         "alternateName": ["TWATF", "TWATF Reader"],
+         "url": f"{SITE_URL}/"},
+        {"@context": "https://schema.org", "@type": "Book",
+         "name": "The World After the Fall", "alternateName": "TWATF",
+         "author": {"@type": "Person", "name": "Sing Shong"},
+         "url": f"{SITE_URL}/", "inLanguage": "en",
+         "genre": ["Fantasy", "Web novel"]},
+    ], ensure_ascii=False)
     return "\n".join([
         f'<title>{xml(page_title)}</title>',
         f'<meta name="description" content="{xml(desc)}" />',
