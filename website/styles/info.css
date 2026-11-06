@@ -75,6 +75,43 @@
 .info-card p:last-child {
   margin-bottom: 0;
 }
+.other-readers-card {
+  text-align: center;
+}
+.other-readers-card h2 {
+  text-align: left;
+}
+.other-reader-link {
+  display: block;
+  margin: 18px 0 8px;
+  color: #f7d98b;
+  font:
+    800 clamp(28px, 5vw, 46px) / 1.1 Georgia,
+    serif;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-shadow:
+    0 0 6px #f7d98bcc,
+    0 0 18px #f0a94c99,
+    0 0 34px #e8754f66;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+.other-reader-link:hover,
+.other-reader-link:focus-visible {
+  color: #fff1bd;
+  text-shadow:
+    0 0 8px #fff1bd,
+    0 0 22px #ffc967,
+    0 0 42px #f07b4f;
+  transform: scale(1.03);
+}
+.other-reader-subtitle {
+  margin: 0;
+  color: var(--muted);
+}
 .identity-card {
   overflow: hidden;
   border: 1px solid #eec498;
@@ -388,9 +425,10 @@
   background-position: center 40%;
 }
 
-/* ── New nav icon buttons (Discord, GitHub, Donate) ── */
+/* ── New nav icon buttons (Discord, GitHub, Reddit, Donate) ── */
 .discord-button { color: #b89cf2; }
 .github-button  { color: #87cdd2; }
+.reddit-button  { color: #ff8b60; }
 .donation-button { color: #f08eb4; }
 
 /* ── Header auto-hide in reader (scroll-up reveals, scroll-down hides) ── */
@@ -436,6 +474,8 @@ body.header-hidden > header {
 .discord-action:hover { border-color: #b89cf2; color: #b89cf2; }
 .donate-action  { color: #f08eb4; border-color: #f08eb460; }
 .donate-action:hover  { border-color: #f08eb4; color: #f08eb4; }
+.reddit-action  { color: #ff8b60; border-color: #ff8b6060; }
+.reddit-action:hover  { border-color: #ff8b60; color: #ffb08f; }
 .github-support {
   display: flex;
   flex-direction: column;
